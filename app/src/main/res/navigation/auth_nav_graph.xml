@@ -7,35 +7,14 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.suitup.auth.ui.login.LoginFragment"
+        android:name="com.example.foodiezapp.auth.ui.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_forgotFragment"
-            app:destination="@id/forgotFragment" />
-        <action
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
             android:id="@+id/action_loginFragment_to_main_nav_graph"
             app:destination="@id/main_nav_graph" />
-        <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/forgotFragment"
-        android:name="com.example.suitup.auth.ui.forgot.ForgotFragment"
-        android:label="fragment_forgot"
-        tools:layout="@layout/fragment_forgot" />
     <include app:graph="@navigation/main_nav_graph" />
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.suitup.auth.ui.register.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
-        <action
-            android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_registerFragment_to_main_nav_graph"
-            app:destination="@id/main_nav_graph" />
-    </fragment>
 </navigation>

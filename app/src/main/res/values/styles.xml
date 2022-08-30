@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextView"/>
+    <style name="TextView.HomeItemTitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextView.HomeItemDetails">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextView.SeeAllItemTitle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="TextView.SeeAllItemDetails">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="CardView"/>
+    <style name="CardView.ItemCard">
+        <item name="android:layout_width">150dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+    <style name="CardView.HomePager">
+        <item name="android:layout_height">200dp</item>
+        <item name="cardCornerRadius">8dp</item>
+    </style>
+</resources>

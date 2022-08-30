@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".main.ui.map.MapsFragment">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/map_bottom_sheet"
+        style="?attr/bottomSheetStyle"
+        android:paddingBottom="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="16dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <ImageView
+            android:id="@+id/map_icon"
+            android:layout_width="@dimen/sheet_image_size"
+            android:layout_height="@dimen/sheet_image_size"
+            android:layout_marginStart="@dimen/margin"
+            android:src="@drawable/logo"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/map_closed"
+            style="@style/TextView.SeeAllItemDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/closed_false"
+            app:layout_constraintEnd_toStartOf="@+id/map_rating_card"
+            app:layout_constraintStart_toEndOf="@+id/map_icon"
+            app:layout_constraintTop_toBottomOf="@+id/map_name" />
+
+        <TextView
+            android:id="@+id/map_name"
+            style="@style/TextView.SeeAllItemTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/restaurant_name"
+            app:layout_constraintEnd_toStartOf="@+id/map_rating_card"
+            app:layout_constraintStart_toEndOf="@+id/map_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/map_address"
+            style="@style/TextView.SeeAllItemDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/restaurant_address"
+            app:layout_constraintBottom_toTopOf="@+id/map_categories"
+            app:layout_constraintEnd_toStartOf="@+id/map_rating_card"
+            app:layout_constraintStart_toEndOf="@+id/map_icon"
+            app:layout_constraintTop_toBottomOf="@+id/map_closed" />
+
+        <TextView
+            android:id="@+id/map_categories"
+            style="@style/TextView.SeeAllItemDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin"
+            android:text="@string/restaurant_categories"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/map_rating_card"
+            app:layout_constraintStart_toEndOf="@+id/map_icon"
+            app:layout_constraintTop_toBottomOf="@+id/map_address" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/map_rating_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_m2"
+            android:layout_marginEnd="@dimen/margin_m2"
+            app:cardBackgroundColor="@color/primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/map_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/padding"
+                android:text="@string/restaurant_rating"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_desc" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

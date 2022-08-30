@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">Suit Up</string>
+    <string name="facebook_app_id">573156691110738</string>
+    <string name="fb_login_protocol_scheme">fb573156691110738</string>
+    <string name="facebook_client_token">59c046894456e9434979bd1afea21024</string>
+    <string name="app_name">Foodiez App</string>
     <string name="home">Home</string>
     <string name="map">Map</string>
     <string name="favorites">Favorites</string>
@@ -17,6 +20,31 @@
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_sing_up">SingUpActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="closed_false">Closed: False</string>
+    <string name="restaurant_name">Spice Alley</string>
+    <string name="restaurant_address">26 Queen Street, NSW</string>
+    <string name="restaurant_categories">Asain, Thai</string>
+    <string name="restaurant_rating">4.8</string>
+    <string name="result_attribute">Hot and New</string>
+    <string name="restaurant_number">20 Restaurants</string>
+    <string name="filter">Filter</string>
+    <string name="filter_head">Filter</string>
+    <string name="filter_category_1">Quick filter</string>
+    <string name="filter_category_2">Sort by</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="price_filter">Price $$$</string>
+    <string name="sort_filter">Close to me</string>
+    <string name="restaurant_hours">11:30AM to 11PM</string>
+    <string name="share">Share</string>
+    <string name="photo">Photo</string>
+    <string name="call">Call</string>
+    <string name="cuisines">Cuisines</string>
+    <string name="price">Price</string>
+    <string name="photos">Photos</string>
+    <string name="date">2022-08-29 00:41:13</string>
+    <string name="text">Text</string>
+    <string name="reviews">Reviews</string>
+    <string name="login">Login</string>
 </resources>

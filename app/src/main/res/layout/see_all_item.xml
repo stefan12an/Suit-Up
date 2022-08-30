@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/see_all_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin"
+    android:elevation="@dimen/elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/see_all_closed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextView.SeeAllItemDetails"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/closed_false"
+            app:layout_constraintBottom_toTopOf="@+id/see_all_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/see_all_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextView.SeeAllItemTitle"
+            android:text="@string/restaurant_name"
+            app:layout_constraintBottom_toTopOf="@+id/see_all_address"
+            app:layout_constraintEnd_toStartOf="@+id/see_all_rating_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/see_all_closed" />
+
+        <TextView
+            android:id="@+id/see_all_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextView.SeeAllItemDetails"
+            android:text="@string/restaurant_address"
+            app:layout_constraintBottom_toTopOf="@+id/see_all_categories"
+            app:layout_constraintEnd_toStartOf="@+id/see_all_rating_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/see_all_name" />
+
+        <TextView
+            android:id="@+id/see_all_categories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextView.SeeAllItemDetails"
+            android:layout_marginBottom="@dimen/margin"
+            android:text="@string/restaurant_categories"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/see_all_rating_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/see_all_address" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/see_all_rating_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_m2"
+            android:layout_marginEnd="@dimen/margin_m2"
+            app:cardBackgroundColor="@color/primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/see_all_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/padding"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_desc"
+                android:text="@string/restaurant_rating" />
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/see_all_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_m2"
+            android:layout_marginBottom="@dimen/margin_m2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_grey_favorites" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
