@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/drawable/default_dot.xml" value="0.273" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/drawable/selected_dot.xml" value="0.273" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/drawable/tab_selector.xml" value="0.273" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/activity_forgot.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/activity_intro.xml" value="0.33645833333333336" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/activity_main.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/carousel_item.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/fragment_screen_slide_page.xml" value="0.2574074074074074" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/fragment_screen_slide_page2.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/layout/slide.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/AndroidStudioProjects/FoodiezApp/app/src/main/res/menu/bottom_menu.xml" value="0.27037037037037037" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/drawable/default_dot.xml" value="0.3145" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/drawable/selected_dot.xml" value="0.3145" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/activity_auth.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/activity_intro.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/activity_main.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/fragment_forgot.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/fragment_home.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/fragment_login.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/fragment_register.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/fragment_request_acces.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/mihai.vinteler/repos/foodiez/app/src/main/res/layout/slide.xml" value="0.3489583333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
