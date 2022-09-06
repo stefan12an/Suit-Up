@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.ui.main.RequestAccesFragment">
+    tools:context="com.example.suitup.main.ui.main.RequestAccesFragment">
 
     <Button
         android:id="@+id/request_access_btn"

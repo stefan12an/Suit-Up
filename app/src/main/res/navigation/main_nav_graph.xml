@@ -29,7 +29,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.foodiezapp.main.ui.home.HomeFragment"
+        android:name="com.example.suitup.main.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/requestAccesFragment"
-        android:name="com.example.foodiezapp.main.ui.main.RequestAccesFragment"
+        android:name="com.example.suitup.main.ui.main.RequestAccesFragment"
         android:label="fragment_request_acces"
         tools:layout="@layout/fragment_request_acces">
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/seeAllFragment"
-        android:name="com.example.foodiezapp.main.ui.seeall.SeeAllFragment"
+        android:name="com.example.suitup.main.ui.seeall.SeeAllFragment"
         android:label="fragment_see_all"
         tools:layout="@layout/fragment_see_all">
 
@@ -73,17 +73,17 @@
     </fragment>
     <dialog
         android:id="@+id/filterFragment"
-        android:name="com.example.foodiezapp.main.ui.seeall.FilterFragment"
+        android:name="com.example.suitup.main.ui.seeall.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" />
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.foodiezapp.main.ui.favourite.FavoritesFragment"
+        android:name="com.example.suitup.main.ui.favourite.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.example.foodiezapp.main.ui.map.MapsFragment"
+        android:name="com.example.suitup.main.ui.map.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps">
         <action
@@ -94,7 +94,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.foodiezapp.main.ui.details.DetailsFragment"
+        android:name="com.example.suitup.main.ui.details.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details">
         <argument
@@ -106,7 +106,7 @@
     </fragment>
     <dialog
         android:id="@+id/photoFragment"
-        android:name="com.example.foodiezapp.main.ui.details.PhotoFragment"
+        android:name="com.example.suitup.main.ui.details.PhotoFragment"
         android:label="fragment_photo"
         tools:layout="@layout/fragment_photo">
         <argument
@@ -115,7 +115,7 @@
     </dialog>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.foodiezapp.main.ui.profile.ProfileFragment"
+        android:name="com.example.suitup.main.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

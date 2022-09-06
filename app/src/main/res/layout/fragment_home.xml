@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_grey"
     android:orientation="vertical"
-    tools:context=".main.ui.home.HomeFragment">
+    tools:context="com.example.suitup.main.ui.home.HomeFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/searchBarCard"
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
-            app:queryHint="Search for restaurants..." />
+            app:queryHint="Search for fashion..." />
     </androidx.cardview.widget.CardView>
 
     <FrameLayout

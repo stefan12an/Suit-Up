@@ -3,6 +3,7 @@
     <dimen name="padding">8dp</dimen>
     <dimen name="padding_m2">16dp</dimen>
     <dimen name="padding_m4">32dp</dimen>
+    <dimen name="padding_m8">64dp</dimen>
     <dimen name="padding_d2">4dp</dimen>
     <dimen name="padding_d4">2dp</dimen>
 

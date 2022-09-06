@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     app:behavior_fitToContents="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    tools:context=".main.ui.seeall.FilterFragment">
+    tools:context="com.example.suitup.main.ui.seeall.FilterFragment">
 
     <TextView
         android:id="@+id/textView3"

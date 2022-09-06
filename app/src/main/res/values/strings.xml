@@ -2,12 +2,12 @@
     <string name="facebook_app_id">573156691110738</string>
     <string name="fb_login_protocol_scheme">fb573156691110738</string>
     <string name="facebook_client_token">59c046894456e9434979bd1afea21024</string>
-    <string name="app_name">Foodiez App</string>
+    <string name="app_name">Suit Up</string>
     <string name="home">Home</string>
     <string name="map">Map</string>
     <string name="favorites">Favorites</string>
     <string name="profile">Profile</string>
-    <string name="foodiez">Foodiez</string>
+    <string name="suitup">Suit Up</string>
     <string name="logo">LOGO</string>
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="prompt_email">Email</string>
