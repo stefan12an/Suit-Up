@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/restaurant_name"
+            android:text="@string/store_name"
             app:layout_constraintEnd_toStartOf="@+id/map_rating_card"
             app:layout_constraintStart_toEndOf="@+id/map_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
             style="@style/TextView.SeeAllItemDetails"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/restaurant_address"
+            android:text="@string/store_address"
             app:layout_constraintBottom_toTopOf="@+id/map_categories"
             app:layout_constraintEnd_toStartOf="@+id/map_rating_card"
             app:layout_constraintStart_toEndOf="@+id/map_icon"
@@ -79,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin"
-            android:text="@string/restaurant_categories"
+            android:text="@string/store_categories"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/map_rating_card"
             app:layout_constraintStart_toEndOf="@+id/map_icon"
@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/padding"
-                android:text="@string/restaurant_rating"
+                android:text="@string/store_rating"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_desc" />
         </androidx.cardview.widget.CardView>

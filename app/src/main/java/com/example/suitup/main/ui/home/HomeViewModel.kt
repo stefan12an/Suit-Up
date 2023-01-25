@@ -10,11 +10,9 @@ import com.example.suitup.common.Constants.DEALS_LIMIT
 import com.example.suitup.common.Constants.HOT_NEW_LIMIT
 import com.example.suitup.common.Constants.NEARBY_LIMIT
 import com.example.suitup.main.data.model.CurrentLocation
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.repository.LocationRepository
 import com.example.suitup.main.data.repository.YelpApiRepository
-import com.example.suitup.main.ui.details.DetailsIntent
-import com.example.suitup.main.ui.details.DetailsSideEffects
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,7 +34,7 @@ class HomeViewModel @Inject constructor(
         when (homeIntent) {
             is HomeIntent.SeeAll -> pushSideEffect(HomeSideEffects.NavigateToSeeAll(homeIntent.directions))
             is HomeIntent.GetData -> getHomeNecessaryData()
-            is HomeIntent.OpenDetails -> pushSideEffect(HomeSideEffects.NavigateToDetails(homeIntent.restaurantId))
+            is HomeIntent.OpenDetails -> pushSideEffect(HomeSideEffects.NavigateToDetails(homeIntent.storeId))
             is HomeIntent.GetSearchResult -> getYelpApiSearchResponse(homeIntent.searchInput)
             is HomeIntent.GoToPhotoSearch -> pushSideEffect(HomeSideEffects.GoToPhotoSearch)
         }
@@ -50,9 +48,9 @@ class HomeViewModel @Inject constructor(
                 pushSideEffect(HomeSideEffects.NavigateToRequest)
                 return@launch
             } else {
-                val searchResult = yelpApiRepository.getRestaurantsSearch(currentLocation, search)
+                val searchResult = yelpApiRepository.getStoreSearch(currentLocation, search)
                 _homeUiState.value = homeUiState.value?.copy(
-                    restaurantsSearch = searchResult.data?.restaurants,
+                    storesSearches = searchResult.data?.stores,
                     loading = false
                 )
                 if(searchResult.data != null) {
@@ -77,9 +75,9 @@ class HomeViewModel @Inject constructor(
             if (location == null) {
                 return@launch
             } else {
-                val nearByResult = yelpApiRepository.getRestaurantsNearBy(location, NEARBY_LIMIT)
-                val hotNewResult = yelpApiRepository.getRestaurantsHotNew(location, HOT_NEW_LIMIT)
-                val dealsResult = yelpApiRepository.getRestaurantsDeals(location, DEALS_LIMIT)
+                val nearByResult = yelpApiRepository.getStoresNearBy(location, NEARBY_LIMIT)
+                val hotNewResult = yelpApiRepository.getStoresHotNew(location, HOT_NEW_LIMIT)
+                val dealsResult = yelpApiRepository.getStoresDeals(location, DEALS_LIMIT)
                 for (response in listOf(nearByResult, hotNewResult, dealsResult)) {
                     if (response.status == Status.ERROR) {
                         pushSideEffect(
@@ -90,9 +88,9 @@ class HomeViewModel @Inject constructor(
                     }
                 }
                 _homeUiState.value = homeUiState.value?.copy(
-                    restaurantsNearBy = nearByResult.data?.restaurants,
-                    restaurantsHotNew = hotNewResult.data?.restaurants,
-                    restaurantsDeals = dealsResult.data?.restaurants,
+                    storesNearBy = nearByResult.data?.stores,
+                    storesHotNew = hotNewResult.data?.stores,
+                    storesDeals = dealsResult.data?.stores,
                     loading = false
                 )
             }
@@ -116,24 +114,24 @@ class HomeViewModel @Inject constructor(
 
 data class HomeUiState(
     val loading: Boolean = false,
-    val restaurantsSearch: List<Restaurant>? = null,
-    val restaurantsNearBy: List<Restaurant>? = null,
-    val restaurantsHotNew: List<Restaurant>? = null,
-    val restaurantsDeals: List<Restaurant>? = null
+    val storesSearches: List<Store>? = null,
+    val storesNearBy: List<Store>? = null,
+    val storesHotNew: List<Store>? = null,
+    val storesDeals: List<Store>? = null
 ) : UiState
 
 sealed class HomeIntent : UserIntent {
     class SeeAll(val directions: NavDirections) : HomeIntent()
     object GetData : HomeIntent()
     class GetSearchResult(val searchInput: CharSequence) : HomeIntent()
-    class OpenDetails(val restaurantId: String) : HomeIntent()
+    class OpenDetails(val storeId: String) : HomeIntent()
     object GoToPhotoSearch : HomeIntent()
 }
 
 sealed class HomeSideEffects : SideEffect {
     class Feedback(val msg: String) : HomeSideEffects()
     class NavigateToSeeAll(val directions: NavDirections) : HomeSideEffects()
-    class NavigateToDetails(val restaurantId: String) : HomeSideEffects()
+    class NavigateToDetails(val storeId: String) : HomeSideEffects()
     object GoToPhotoSearch : HomeSideEffects()
     object NavigateToRequest : HomeSideEffects()
 }

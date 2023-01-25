@@ -8,7 +8,7 @@ import com.example.suitup.common.Event
 import com.example.suitup.common.SideEffect
 import com.example.suitup.common.UiState
 import com.example.suitup.common.UserIntent
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.model.yelp.YelpReview
 import com.example.suitup.main.data.repository.RoomRepository
 import com.example.suitup.main.data.repository.YelpApiRepository
@@ -30,7 +30,7 @@ class DetailsViewModel @Inject constructor(
 
     fun action(detailsIntent: DetailsIntent) {
         when (detailsIntent) {
-            is DetailsIntent.GetData -> loadRestaurantData(detailsIntent.restaurantId)
+            is DetailsIntent.GetData -> loadStoreData(detailsIntent.storeId)
             is DetailsIntent.OpenPhoto -> pushSideEffect(
                 DetailsSideEffects.NavigateToPhoto(
                     detailsIntent.photo
@@ -43,32 +43,32 @@ class DetailsViewModel @Inject constructor(
 
     private fun handleFavoritesRequest() {
         _detailsUiState.value = detailsUiState.value?.copy(loading = true)
-        val restaurant = detailsUiState.value?.restaurant
+        val store = detailsUiState.value?.store
         viewModelScope.launch {
-            if (restaurant?.isFavorite != true) {
-                restaurant?.mapToEntity()?.let { roomRepository.addRestaurantToDb(it) }
-                restaurant?.isFavorite = true
+            if (store?.isFavorite != true) {
+                store?.mapToEntity()?.let { roomRepository.addStoreToDb(it) }
+                store?.isFavorite = true
             } else {
-                roomRepository.deleteRestaurantFromDb(restaurant.id)
-                restaurant.isFavorite = false
+                roomRepository.deleteStoreFromDb(store.id)
+                store.isFavorite = false
             }
             _detailsUiState.value =
-                detailsUiState.value?.copy(restaurant = restaurant, loading = false)
+                detailsUiState.value?.copy(store = store, loading = false)
         }
     }
 
-    private fun loadRestaurantData(restaurantId: String?) {
+    private fun loadStoreData(storeId: String?) {
         _detailsUiState.value = detailsUiState.value?.copy(loading = true)
         viewModelScope.launch {
-            val restaurantsDb = roomRepository.loadRestaurantIdsFromDb()
-            val searchResult = yelpApiRepository.getRestaurantData(restaurantId)
-            val reviewResult = yelpApiRepository.getRestaurantReviews(restaurantId)
-            if (restaurantsDb.contains(searchResult.data?.id)) {
+            val storesDb = roomRepository.loadStoreIdsFromDb()
+            val searchResult = yelpApiRepository.getStoreData(storeId)
+            val reviewResult = yelpApiRepository.getStoreReviews(storeId)
+            if (storesDb.contains(searchResult.data?.id)) {
                 searchResult.data?.isFavorite = true
             }
             _detailsUiState.value =
                 detailsUiState.value?.copy(
-                    restaurant = searchResult.data,
+                    store = searchResult.data,
                     reviews = reviewResult.data?.reviews,
                     loading = false
                 )
@@ -82,12 +82,12 @@ class DetailsViewModel @Inject constructor(
 
 data class DetailsUiState(
     val loading: Boolean = false,
-    val restaurant: Restaurant? = null,
+    val store: Store? = null,
     val reviews: List<YelpReview>? = null
 ) : UiState
 
 sealed class DetailsIntent : UserIntent {
-    class GetData(val restaurantId: String?) : DetailsIntent()
+    class GetData(val storeId: String?) : DetailsIntent()
     class OpenPhoto(val photo: String?) : DetailsIntent()
     object AddToFavorites : DetailsIntent()
     object GoToPhotoSearch : DetailsIntent()

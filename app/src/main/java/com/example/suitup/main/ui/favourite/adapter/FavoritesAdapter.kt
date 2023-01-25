@@ -7,18 +7,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.suitup.common.Constants
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import suitup.R
 import suitup.databinding.FavoritesItemBinding
 import java.util.*
 
-class RestaurantItemCallback : DiffUtil.ItemCallback<Restaurant>() {
+class StoreItemCallback : DiffUtil.ItemCallback<Store>() {
 
-    override fun areItemsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
+    override fun areItemsTheSame(oldItem: Store, newItem: Store): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
+    override fun areContentsTheSame(oldItem: Store, newItem: Store): Boolean {
         return oldItem.isFavorite == newItem.isFavorite
     }
 }
@@ -26,7 +26,7 @@ class RestaurantItemCallback : DiffUtil.ItemCallback<Restaurant>() {
 class FavoritesAdapter(
     private val clickListener: FavoritesOnClickListener
 ) :
-    ListAdapter<Restaurant, FavoritesAdapter.ViewHolder>(RestaurantItemCallback()) {
+    ListAdapter<Store, FavoritesAdapter.ViewHolder>(StoreItemCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -87,9 +87,9 @@ class FavoritesAdapter(
 }
 
 class FavoritesOnClickListener(
-    val favoritesClickListener: (Restaurant) -> Unit,
+    val favoritesClickListener: (Store) -> Unit,
     val clickListener: (String) -> Unit
 ) {
-    fun onFavoritesClick(restaurant: Restaurant) = favoritesClickListener(restaurant)
-    fun onClick(restaurantId: String) = clickListener(restaurantId)
+    fun onFavoritesClick(store: Store) = favoritesClickListener(store)
+    fun onClick(storeId: String) = clickListener(storeId)
 }

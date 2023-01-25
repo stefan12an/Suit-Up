@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.suitup.common.*
 import com.example.suitup.main.data.model.CurrentLocation
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.repository.LocationRepository
 import com.example.suitup.main.data.repository.YelpApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,9 +45,9 @@ class PhotoSearchViewModel @Inject constructor(
                 pushSideEffect(PhotoSearchSideEffects.NavigateToRequest)
                 return@launch
             } else {
-                val searchResult = yelpApiRepository.getRestaurantsSearch(currentLocation, label)
+                val searchResult = yelpApiRepository.getStoreSearch(currentLocation, label)
                 _photoSearchUiState.value = photoSearchUiState.value?.copy(
-                    restaurantsSearch = searchResult.data?.restaurants,
+                    storesSearches = searchResult.data?.stores,
                     loading = false
                 )
                 if (searchResult.data != null) {
@@ -86,7 +86,7 @@ class PhotoSearchViewModel @Inject constructor(
 
 data class PhotoSearchUiState(
     val loading: Boolean = false,
-    val restaurantsSearch: List<Restaurant>? = null
+    val storesSearches: List<Store>? = null
 ) : UiState
 
 sealed class PhotoSearchIntent : UserIntent {

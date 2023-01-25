@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/restaurant_number"
+            android:text="@string/store_number"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_desc" />
 

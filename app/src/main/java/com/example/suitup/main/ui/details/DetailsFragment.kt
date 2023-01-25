@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.suitup.common.EventObserver
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.model.yelp.YelpReview
 import com.example.suitup.main.ui.details.adapter.DetailsAdapter
 import com.example.suitup.main.ui.details.adapter.DetailsOnClickListener
@@ -23,7 +23,7 @@ import suitup.databinding.FragmentDetailsBinding
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
-    private var restaurantId: String? = null
+    private var storeId: String? = null
     private val viewModel: DetailsViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,7 @@ class DetailsFragment : Fragment() {
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val bundle = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
-        restaurantId = bundle?.restaurantId
+        storeId = bundle?.storeId
         val sideEffectsObserver = EventObserver<DetailsSideEffects> {
             handleSideEffect(it)
         }
@@ -43,11 +43,11 @@ class DetailsFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 binding.detailsRv.alpha = 1.0f
                 bindRv(
-                    viewModel.detailsUiState.value?.restaurant,
+                    viewModel.detailsUiState.value?.store,
                     viewModel.detailsUiState.value?.reviews
                 )
-                Picasso.get().load(viewModel.detailsUiState.value?.restaurant?.image_url).into(binding.toolbarIv)
-                binding.myToolbar.title = viewModel.detailsUiState.value?.restaurant?.name
+                Picasso.get().load(viewModel.detailsUiState.value?.store?.image_url).into(binding.toolbarIv)
+                binding.myToolbar.title = viewModel.detailsUiState.value?.store?.name
             }
         }
         viewModel.sideEffect.observe(viewLifecycleOwner, sideEffectsObserver)
@@ -69,12 +69,12 @@ class DetailsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.action(DetailsIntent.GetData(restaurantId))
+        viewModel.action(DetailsIntent.GetData(storeId))
         bindToolbar()
     }
 
-    private fun bindRv(restaurant: Restaurant?, reviews: List<YelpReview>?) {
-        val adapter = DetailsAdapter(restaurant, reviews, DetailsOnClickListener({
+    private fun bindRv(store: Store?, reviews: List<YelpReview>?) {
+        val adapter = DetailsAdapter(store, reviews, DetailsOnClickListener({
             viewModel.action(DetailsIntent.AddToFavorites)
         },{
           viewModel.action(DetailsIntent.GoToPhotoSearch)

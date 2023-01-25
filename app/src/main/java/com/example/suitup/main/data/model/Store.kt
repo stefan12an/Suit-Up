@@ -5,7 +5,7 @@ import com.example.suitup.main.data.model.yelp.YelpCoordinates
 import com.example.suitup.main.data.model.yelp.YelpHours
 import com.example.suitup.main.data.model.yelp.YelpLocation
 
-data class Restaurant(
+data class Store(
     val id: String,
     val name: String,
     val rating: Float,
@@ -22,8 +22,8 @@ data class Restaurant(
     val hours: List<YelpHours>? = emptyList(),
     val url: String? = null
 ) {
-    fun mapToEntity(): RestaurantEntity =
-        RestaurantEntity(
+    fun mapToEntity(): StoreEntity =
+        StoreEntity(
             id,
             name,
             rating,

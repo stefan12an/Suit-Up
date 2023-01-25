@@ -4,38 +4,38 @@ import com.example.suitup.common.Constants
 import com.example.suitup.common.Resource
 import com.example.suitup.common.Status
 import com.example.suitup.main.data.model.CurrentLocation
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.model.yelp.YelpReviewResult
 import com.example.suitup.main.data.model.yelp.YelpSearchResult
 import com.example.suitup.main.data.network.YelpApiInterface
 import javax.inject.Inject
 
 interface YelpApiRepository {
-    suspend fun getRestaurantData(restaurantId: String?): Resource<Restaurant>
+    suspend fun getStoreData(storeId: String?): Resource<Store>
 
-    suspend fun getRestaurantReviews(restaurantId: String?): Resource<YelpReviewResult>
+    suspend fun getStoreReviews(storeId: String?): Resource<YelpReviewResult>
 
-    suspend fun getRestaurantsSearch(
+    suspend fun getStoreSearch(
         currentLocation: CurrentLocation,
         searchInput: CharSequence
     ): Resource<YelpSearchResult>
 
-    suspend fun getRestaurantsNearBy(
+    suspend fun getStoresNearBy(
         currentLocation: CurrentLocation,
         limit: Int
     ): Resource<YelpSearchResult>
 
-    suspend fun getRestaurantsHotNew(
+    suspend fun getStoresHotNew(
         currentLocation: CurrentLocation,
         limit: Int
     ): Resource<YelpSearchResult>
 
-    suspend fun getRestaurantsDeals(
+    suspend fun getStoresDeals(
         currentLocation: CurrentLocation,
         limit: Int
     ): Resource<YelpSearchResult>
 
-    suspend fun getAllFilteredRestaurants(
+    suspend fun getAllFilteredStores(
         currentLocation: CurrentLocation,
         searchTerm: String? = null,
         attribute: String? = null,
@@ -47,10 +47,10 @@ interface YelpApiRepository {
 class YelpApiRepositoryImpl @Inject constructor(private val yelpApiInterface: YelpApiInterface) :
     YelpApiRepository {
 
-    override suspend fun getRestaurantData(restaurantId: String?): Resource<Restaurant> {
-        val response = yelpApiInterface.getRestaurant(
+    override suspend fun getStoreData(storeId: String?): Resource<Store> {
+        val response = yelpApiInterface.getStore(
             "Bearer ${Constants.YELP_API_KEY}",
-            restaurantId
+            storeId
         )
         return if (response.isSuccessful) {
             Resource(Status.SUCCESS, response.body())
@@ -59,10 +59,10 @@ class YelpApiRepositoryImpl @Inject constructor(private val yelpApiInterface: Ye
         }
     }
 
-    override suspend fun getRestaurantReviews(restaurantId: String?): Resource<YelpReviewResult> {
-        val response = yelpApiInterface.getRestaurantReviews(
+    override suspend fun getStoreReviews(storeId: String?): Resource<YelpReviewResult> {
+        val response = yelpApiInterface.getStoreReviews(
             "Bearer ${Constants.YELP_API_KEY}",
-            restaurantId
+            storeId
         )
         return if (response.isSuccessful) {
             Resource(Status.SUCCESS, response.body())
@@ -71,11 +71,11 @@ class YelpApiRepositoryImpl @Inject constructor(private val yelpApiInterface: Ye
         }
     }
 
-    override suspend fun getRestaurantsSearch(
+    override suspend fun getStoreSearch(
         currentLocation: CurrentLocation,
         searchInput: CharSequence
     ): Resource<YelpSearchResult> {
-        val response = yelpApiInterface.getRestaurants(
+        val response = yelpApiInterface.getStores(
             "Bearer ${Constants.YELP_API_KEY}",
             currentLocation.latitude,
             currentLocation.longitude,
@@ -88,11 +88,11 @@ class YelpApiRepositoryImpl @Inject constructor(private val yelpApiInterface: Ye
         }
     }
 
-    override suspend fun getRestaurantsNearBy(
+    override suspend fun getStoresNearBy(
         currentLocation: CurrentLocation,
         limit: Int
     ): Resource<YelpSearchResult> {
-        val response = yelpApiInterface.getRestaurants(
+        val response = yelpApiInterface.getStores(
             "Bearer ${Constants.YELP_API_KEY}",
             currentLocation.latitude,
             currentLocation.longitude,
@@ -105,11 +105,11 @@ class YelpApiRepositoryImpl @Inject constructor(private val yelpApiInterface: Ye
         }
     }
 
-    override suspend fun getRestaurantsHotNew(
+    override suspend fun getStoresHotNew(
         currentLocation: CurrentLocation,
         limit: Int
     ): Resource<YelpSearchResult> {
-        val response = yelpApiInterface.getRestaurants(
+        val response = yelpApiInterface.getStores(
             "Bearer ${Constants.YELP_API_KEY}",
             currentLocation.latitude,
             currentLocation.longitude,
@@ -123,11 +123,11 @@ class YelpApiRepositoryImpl @Inject constructor(private val yelpApiInterface: Ye
         }
     }
 
-    override suspend fun getRestaurantsDeals(
+    override suspend fun getStoresDeals(
         currentLocation: CurrentLocation,
         limit: Int
     ): Resource<YelpSearchResult> {
-        val response = yelpApiInterface.getRestaurants(
+        val response = yelpApiInterface.getStores(
             "Bearer ${Constants.YELP_API_KEY}",
             currentLocation.latitude,
             currentLocation.longitude,
@@ -141,14 +141,14 @@ class YelpApiRepositoryImpl @Inject constructor(private val yelpApiInterface: Ye
         }
     }
 
-    override suspend fun getAllFilteredRestaurants(
+    override suspend fun getAllFilteredStores(
         currentLocation: CurrentLocation,
         searchTerm: String?,
         attribute: String?,
         orderFilter: String?,
         priceFilter: String?
     ): Resource<YelpSearchResult> {
-        val response = yelpApiInterface.getRestaurants(
+        val response = yelpApiInterface.getStores(
             "Bearer ${Constants.YELP_API_KEY}",
             currentLocation.latitude,
             currentLocation.longitude,

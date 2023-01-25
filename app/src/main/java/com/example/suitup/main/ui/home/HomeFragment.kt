@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.suitup.common.EventObserver
-import com.example.suitup.main.ui.details.DetailsSideEffects
 import com.example.suitup.main.ui.home.adapter.HomeParentOnClickListener
 import com.example.suitup.main.ui.home.adapter.ParentAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +71,7 @@ class HomeFragment : Fragment() {
         when (sideEffect) {
             is HomeSideEffects.NavigateToSeeAll -> findNavController().navigate(sideEffect.directions)
             is HomeSideEffects.NavigateToDetails -> findNavController().navigate(
-                MainNavGraphDirections.moveToDetailsFragment(sideEffect.restaurantId)
+                MainNavGraphDirections.moveToDetailsFragment(sideEffect.storeId)
             )
             is HomeSideEffects.GoToPhotoSearch ->
                 findNavController().navigate(R.id.action_homeFragment_to_photoSearchFragment)
@@ -83,13 +82,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindRv(context: Context) {
-        val listOfRestaurants = listOf(
-            viewModel.homeUiState.value?.restaurantsNearBy ?: emptyList(),
-            viewModel.homeUiState.value?.restaurantsHotNew ?: emptyList(),
-            viewModel.homeUiState.value?.restaurantsDeals ?: emptyList()
+        val listOfStores = listOf(
+            viewModel.homeUiState.value?.storesNearBy ?: emptyList(),
+            viewModel.homeUiState.value?.storesHotNew ?: emptyList(),
+            viewModel.homeUiState.value?.storesDeals ?: emptyList()
         )
         val parentAdapter =
-            ParentAdapter(listOfRestaurants, HomeParentOnClickListener({ direction ->
+            ParentAdapter(listOfStores, HomeParentOnClickListener({ direction ->
                 viewModel.action(HomeIntent.SeeAll(direction))
             }, {
                 viewModel.action(HomeIntent.OpenDetails(it))

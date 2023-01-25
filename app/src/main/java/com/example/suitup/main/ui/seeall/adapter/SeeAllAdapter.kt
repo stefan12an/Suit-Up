@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.suitup.common.Constants.INTERVAL_GREEN
 import com.example.suitup.common.Constants.INTERVAL_RED
 import com.example.suitup.common.Constants.INTERVAL_YELLOW
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import suitup.R
 import suitup.databinding.SeeAllHeaderBinding
 import suitup.databinding.SeeAllItemBinding
@@ -18,13 +18,13 @@ import java.util.*
 private const val ITEM_HEADER = 0
 private const val ITEM_RV = 1
 
-class RestaurantItemCallback : DiffUtil.ItemCallback<Restaurant>() {
+class StoreItemCallback : DiffUtil.ItemCallback<Store>() {
 
-    override fun areItemsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
+    override fun areItemsTheSame(oldItem: Store, newItem: Store): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
+    override fun areContentsTheSame(oldItem: Store, newItem: Store): Boolean {
         return oldItem.isFavorite == newItem.isFavorite
     }
 }
@@ -32,7 +32,7 @@ class RestaurantItemCallback : DiffUtil.ItemCallback<Restaurant>() {
 class SeeAllAdapter(
     private val clickListener: SeeAllOnClickListener
 ) :
-    ListAdapter<Restaurant, RecyclerView.ViewHolder>(RestaurantItemCallback()) {
+    ListAdapter<Store, RecyclerView.ViewHolder>(StoreItemCallback()) {
 
     override fun getItemViewType(position: Int): Int {
         if (isHeaderPosition(position)) {
@@ -63,7 +63,7 @@ class SeeAllAdapter(
             ITEM_HEADER -> {
                 val viewHolder = holder as HeaderViewHolder
                 viewHolder.binding.seeAllTotal.text =
-                    itemCount.toString() + " Restaurants"
+                    itemCount.toString() + " Stores"
                 viewHolder.binding.seeAllFilter.setOnClickListener {
                     clickListener.onFilterClick()
                 }
@@ -128,9 +128,9 @@ class SeeAllAdapter(
 class SeeAllOnClickListener(
     val filterClickListener: () -> Unit,
     val clickListener: (String) -> Unit,
-    val favoritesClickListener: (Restaurant) -> Unit
+    val favoritesClickListener: (Store) -> Unit
 ) {
     fun onFilterClick() = filterClickListener()
-    fun onClick(restaurantId: String) = clickListener(restaurantId)
-    fun onFavoritesClick(restaurant: Restaurant) = favoritesClickListener(restaurant)
+    fun onClick(storeId: String) = clickListener(storeId)
+    fun onFavoritesClick(store: Store) = favoritesClickListener(store)
 }

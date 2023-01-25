@@ -8,8 +8,8 @@ import com.example.suitup.main.data.model.yelp.YelpCoordinates
 import com.example.suitup.main.data.model.yelp.YelpLocation
 
 
-@Entity(tableName = "Restaurants")
-data class RestaurantEntity(
+@Entity(tableName = "Stores")
+data class StoreEntity(
     @PrimaryKey(autoGenerate = false) var id: String,
     var name: String?,
     var rating: Float?,
@@ -22,7 +22,7 @@ data class RestaurantEntity(
     @Embedded var coordinates: YelpCoordinates?,
     @Embedded var location: YelpLocation?
 ) {
-      fun mapToModel(): Restaurant = Restaurant(
+      fun mapToModel(): Store = Store(
         id, name!!, rating!!, price, phone, review_count, is_closed, image_url,
         listOf(YelpCategory(categories!!)), coordinates!!, location, isFavorite = true
     )

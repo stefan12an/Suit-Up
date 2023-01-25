@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
-            android:text="@string/restaurant_rating"
+            android:text="@string/store_rating"
             app:layout_constraintStart_toEndOf="@+id/review_rating_bar"
             app:layout_constraintTop_toTopOf="@+id/review_rating_bar" />
 

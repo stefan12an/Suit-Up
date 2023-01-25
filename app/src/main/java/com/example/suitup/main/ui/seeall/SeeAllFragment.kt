@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.suitup.common.Constants.ATTRIBUTES
 import com.example.suitup.common.EventObserver
 import com.example.suitup.main.data.model.Filter
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.ui.seeall.adapter.SeeAllAdapter
 import com.example.suitup.main.ui.seeall.adapter.SeeAllOnClickListener
 import com.squareup.picasso.Picasso
@@ -61,12 +61,12 @@ class SeeAllFragment : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.GONE
-                val newCopy = it.restaurantsAll?.map { restaurant -> restaurant.copy() }
+                val newCopy = it.storesAll?.map { store -> store.copy() }
                 updateFavoriteData(newCopy ?: emptyList())
                 binding.myToolbar.title = getKey(ATTRIBUTES, attribute)
                 try {
                     Picasso.get()
-                        .load(it.restaurantsAll?.get(0)?.image_url)
+                        .load(it.storesAll?.get(0)?.image_url)
                         .placeholder(R.drawable.logo)
                         .into(binding.toolbarIv)
                 } catch (e: Exception) {
@@ -92,7 +92,7 @@ class SeeAllFragment : Fragment() {
     private fun handleSideEffect(sideEffect: SeeAllSideEffects) {
         when (sideEffect) {
             is SeeAllSideEffects.NavigateToDetails -> {
-                findNavController().navigate(MainNavGraphDirections.moveToDetailsFragment(sideEffect.restaurantId))
+                findNavController().navigate(MainNavGraphDirections.moveToDetailsFragment(sideEffect.storeId))
             }
             is SeeAllSideEffects.NavigateToFilter -> {
                 val modalBottomSheet = FilterFragment(filterResults, priceList, orderList)
@@ -105,11 +105,11 @@ class SeeAllFragment : Fragment() {
         }
     }
 
-    private fun updateFavoriteData(restaurantList: List<Restaurant>) {
+    private fun updateFavoriteData(storeList: List<Store>) {
         bindRv()
         val adapter = binding.seeAllRv.adapter
         if (adapter is SeeAllAdapter) {
-            adapter.submitList(restaurantList)
+            adapter.submitList(storeList)
         } else {
             Toast.makeText(
                 context,

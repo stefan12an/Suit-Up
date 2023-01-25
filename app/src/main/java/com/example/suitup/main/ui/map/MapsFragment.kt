@@ -15,7 +15,7 @@ import com.example.suitup.common.Constants
 import com.example.suitup.common.EventObserver
 import com.example.suitup.main.data.model.ClusterMarker
 import com.example.suitup.main.data.model.CurrentLocation
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -35,7 +35,7 @@ import suitup.databinding.FragmentMapsBinding
 class MapsFragment : Fragment() {
     private lateinit var binding: FragmentMapsBinding
     private var clusterManager: ClusterManager<ClusterMarker>? = null
-    private var nearByRestaurants: List<Restaurant>? = emptyList()
+    private var nearByStores: List<Store>? = emptyList()
     private var location: CurrentLocation? = null
     private val viewModel: MapsViewModel by viewModels()
     private val callback = OnMapReadyCallback { googleMap ->
@@ -53,14 +53,14 @@ class MapsFragment : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.GONE
-                nearByRestaurants = viewModel.mapsUiState.value?.restaurantsAll
+                nearByStores = viewModel.mapsUiState.value?.storesAll
                 location = viewModel.mapsUiState.value?.location
                 val userLocation = LatLng(location!!.latitude, location!!.longitude)
                 googleMap.addMarker(
                     MarkerOptions().position(userLocation).title("Current location!")
                 )
-                nearByRestaurants?.forEach { restaurant ->
-                    val markerItem = ClusterMarker(restaurant)
+                nearByStores?.forEach { store ->
+                    val markerItem = ClusterMarker(store)
                     clusterManager?.addItem(markerItem)
                 }
                 clusterManager?.cluster()
@@ -76,21 +76,21 @@ class MapsFragment : Fragment() {
         googleMap.isBuildingsEnabled = true
         googleMap.setOnCameraIdleListener(clusterManager)
         clusterManager?.setOnClusterItemClickListener { marker ->
-            val restaurantLocation =
+            val storeLocation =
                 LatLng(
-                    marker.restaurant.coordinates.latitude,
-                    marker.restaurant.coordinates.longitude
+                    marker.store.coordinates.latitude,
+                    marker.store.coordinates.longitude
                 )
-            googleMap.animateCamera(CameraUpdateFactory.newLatLng(restaurantLocation))
+            googleMap.animateCamera(CameraUpdateFactory.newLatLng(storeLocation))
             with(binding) {
-                mapBottomSheet.setOnClickListener { viewModel.action(MapsIntent.OpenDetails(marker.restaurant.id)) }
-                mapName.text = marker.restaurant.name
-                mapAddress.text = marker.restaurant.location?.address1
-                mapCategories.text = marker.restaurant.categories.toString()
-                mapClosed.text = "Closed: ${marker.restaurant.is_closed.toString()}"
-                mapRating.text = marker.restaurant.rating.toString()
-                setRatingColor(marker.restaurant.rating)
-                Picasso.get().load(marker.restaurant.image_url).into(mapIcon)
+                mapBottomSheet.setOnClickListener { viewModel.action(MapsIntent.OpenDetails(marker.store.id)) }
+                mapName.text = marker.store.name
+                mapAddress.text = marker.store.location?.address1
+                mapCategories.text = marker.store.categories.toString()
+                mapClosed.text = "Closed: ${marker.store.is_closed.toString()}"
+                mapRating.text = marker.store.rating.toString()
+                setRatingColor(marker.store.rating)
+                Picasso.get().load(marker.store.image_url).into(mapIcon)
             }
             standardBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             return@setOnClusterItemClickListener true
@@ -119,7 +119,7 @@ class MapsFragment : Fragment() {
             is MapsSideEffects.NavigateToRequest ->
                 findNavController().navigate(R.id.action_mapsFragment_to_requestAccesFragment)
             is MapsSideEffects.NavigateToDetails -> findNavController().navigate(
-                MainNavGraphDirections.moveToDetailsFragment(sideEffect.restaurantId)
+                MainNavGraphDirections.moveToDetailsFragment(sideEffect.storeId)
             )
             is MapsSideEffects.Feedback ->
                 Toast.makeText(requireContext(), sideEffect.msg, Toast.LENGTH_SHORT).show()

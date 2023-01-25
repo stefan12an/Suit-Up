@@ -22,12 +22,12 @@
     <string name="title_activity_sing_up">SingUpActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="closed_false">Closed: False</string>
-    <string name="restaurant_name">Spice Alley</string>
-    <string name="restaurant_address">26 Queen Street, NSW</string>
-    <string name="restaurant_categories">Asain, Thai</string>
-    <string name="restaurant_rating">4.8</string>
+    <string name="store_name">Spice Alley</string>
+    <string name="store_address">26 Queen Street, NSW</string>
+    <string name="store_categories">Asain, Thai</string>
+    <string name="store_rating">4.8</string>
     <string name="result_attribute">Hot and New</string>
-    <string name="restaurant_number">20 Restaurants</string>
+    <string name="store_number">20 Stores</string>
     <string name="filter">Filter</string>
     <string name="filter_head">Filter</string>
     <string name="filter_category_1">Quick filter</string>
@@ -36,7 +36,7 @@
     <string name="cancel">Cancel</string>
     <string name="price_filter">Price $$$</string>
     <string name="sort_filter">Close to me</string>
-    <string name="restaurant_hours">11:30AM to 11PM</string>
+    <string name="store_hours">11:30AM to 11PM</string>
     <string name="share">Share</string>
     <string name="photo">Photo</string>
     <string name="call">Call</string>

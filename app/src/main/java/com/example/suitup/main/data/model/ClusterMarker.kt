@@ -4,17 +4,17 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
 data class ClusterMarker(
-    val restaurant: Restaurant
+    val store: Store
 ) : ClusterItem {
     override fun getPosition(): LatLng {
-        return LatLng(restaurant.coordinates.latitude, restaurant.coordinates.longitude)
+        return LatLng(store.coordinates.latitude, store.coordinates.longitude)
     }
 
     override fun getTitle(): String {
-        return restaurant.name
+        return store.name
     }
 
     override fun getSnippet(): String {
-        return restaurant.categories.toString()
+        return store.categories.toString()
     }
 }

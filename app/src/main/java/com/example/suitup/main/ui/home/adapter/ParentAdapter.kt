@@ -6,7 +6,7 @@ import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.suitup.common.Constants.ATTRIBUTES
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.ui.home.HomeFragmentDirections
 import com.google.android.material.tabs.TabLayoutMediator
 import suitup.databinding.HomeItemRowParentBinding
@@ -16,7 +16,7 @@ private const val ITEM_PAGER = 0
 private const val ITEM_RV = 1
 
 class ParentAdapter(
-    private val restaurantList: List<List<Restaurant>>,
+    private val storeList: List<List<Store>>,
     private val clickListener: HomeParentOnClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -45,7 +45,7 @@ class ParentAdapter(
         when (holder.itemViewType) {
             ITEM_PAGER -> {
                 val viewHolder = holder as ViewHolderOne
-                viewHolder.setItems(restaurantList[position], position)
+                viewHolder.setItems(storeList[position], position)
             }
             ITEM_RV -> {
                 val viewHolder = holder as ViewHolderTwo
@@ -56,7 +56,7 @@ class ParentAdapter(
                     clickListener.onSeeAllClick(action)
                 }
                 viewHolder.binding.childHomeTitle.text = titleList[position]
-                viewHolder.setItems(restaurantList[position], position)
+                viewHolder.setItems(storeList[position], position)
             }
         }
     }
@@ -77,8 +77,8 @@ class ParentAdapter(
 
         }
 
-        fun setItems(restaurantData: List<Restaurant>, position: Int) {
-            adapter.setItems(restaurantData, position)
+        fun setItems(storeData: List<Store>, position: Int) {
+            adapter.setItems(storeData, position)
         }
     }
 
@@ -95,13 +95,13 @@ class ParentAdapter(
             binding.childHomeRecyclerView.adapter = adapter
         }
 
-        fun setItems(restaurantData: List<Restaurant>, position: Int) {
-            adapter.setItems(restaurantData, position)
+        fun setItems(storeData: List<Store>, position: Int) {
+            adapter.setItems(storeData, position)
         }
     }
 }
 
 class HomeParentOnClickListener(val seeAllClickListener: (directions: NavDirections) -> Unit, val clickListener: (String) -> Unit) {
     fun onSeeAllClick(directions: NavDirections) = seeAllClickListener(directions)
-    fun onClick(restaurantId: String) = clickListener(restaurantId)
+    fun onClick(storeId: String) = clickListener(storeId)
 }

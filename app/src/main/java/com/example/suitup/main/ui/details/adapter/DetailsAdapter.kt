@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.model.yelp.YelpReview
 import suitup.R
 import suitup.databinding.DetailsHeaderBinding
@@ -22,7 +22,7 @@ private const val ITEM_NUMBER = 3
 private const val CATEGORIES_LIMIT = 2
 
 class DetailsAdapter(
-    private val restaurant: Restaurant?,
+    private val store: Store?,
     private val reviews: List<YelpReview>?,
     private val clickListener: DetailsOnClickListener
 ) :
@@ -71,16 +71,16 @@ class DetailsAdapter(
             ITEM_HEADER -> {
                 val viewHolder = holder as HeaderViewHolder
                 with(viewHolder.binding) {
-                    detailsAddress.text = restaurant?.location?.address1
+                    detailsAddress.text = store?.location?.address1
                     detailsCategories.text =
-                        restaurant?.categories?.take(CATEGORIES_LIMIT).toString()
+                        store?.categories?.take(CATEGORIES_LIMIT).toString()
                     detailsHours.text =
-                        restaurant?.hours?.get(0)?.getCorrectSchedule()?.toSchedule()
+                        store?.hours?.get(0)?.getCorrectSchedule()?.toSchedule()
                             ?: "Closed today"
-                    detailsPhone.text = restaurant?.phone ?: "Not available"
-                    detailsCuisines.text = restaurant?.categories?.take(CATEGORIES_LIMIT).toString()
-                    detailsPrice.text = restaurant?.price ?: "Not available"
-                    if (restaurant?.isFavorite == true) {
+                    detailsPhone.text = store?.phone ?: "Not available"
+                    detailsCuisines.text = store?.categories?.take(CATEGORIES_LIMIT).toString()
+                    detailsPrice.text = store?.price ?: "Not available"
+                    if (store?.isFavorite == true) {
                         detailsFavorites.setImageResource(R.drawable.ic_blue_favorites)
                     }
                     detailsFavorites.setOnClickListener {
@@ -89,15 +89,15 @@ class DetailsAdapter(
                     detailsPhone.setOnClickListener {
                         val intent = Intent(
                             Intent.ACTION_DIAL,
-                            Uri.fromParts("tel", restaurant?.phone, null)
+                            Uri.fromParts("tel", store?.phone, null)
                         )
                         startActivity(root.context, intent, null)
                     }
                     detailsShare.setOnClickListener {
                         val i = Intent(Intent.ACTION_SEND)
                         i.type = "text/plain"
-                        i.putExtra(Intent.EXTRA_SUBJECT, "Share this restaurant with everyone!")
-                        i.putExtra(Intent.EXTRA_TEXT, restaurant?.url)
+                        i.putExtra(Intent.EXTRA_SUBJECT, "Share this store with everyone!")
+                        i.putExtra(Intent.EXTRA_TEXT, store?.url)
                         startActivity(root.context, Intent.createChooser(i, "Share via"), null)
                     }
                     detailsPhoto.setOnClickListener {
@@ -107,7 +107,7 @@ class DetailsAdapter(
             }
             ITEM_PHOTOS_RV -> {
                 val viewHolder = holder as PhotosViewHolder
-                viewHolder.setItems(restaurant?.photos)
+                viewHolder.setItems(store?.photos)
             }
             ITEM_REVIEWS_RV -> {
                 val viewHolder = holder as ReviewsViewHolder
@@ -137,8 +137,8 @@ class DetailsAdapter(
             binding.detailsPhotosRv.adapter = adapter
         }
 
-        fun setItems(restaurantPhotos: List<String>?) {
-            adapter.setItems(restaurantPhotos)
+        fun setItems(storePhotos: List<String>?) {
+            adapter.setItems(storePhotos)
         }
     }
 
@@ -155,8 +155,8 @@ class DetailsAdapter(
             binding.detailsReviewsRv.adapter = adapter
         }
 
-        fun setItems(restaurantReviews: List<YelpReview>?) {
-            adapter.setItems(restaurantReviews)
+        fun setItems(storeReviews: List<YelpReview>?) {
+            adapter.setItems(storeReviews)
         }
     }
 }
@@ -168,5 +168,5 @@ class DetailsOnClickListener(
 ) {
     fun onFavoritesClick() = favoritesClickListener()
     fun onPhotoButtonClick() = photoButtonClickLIstener()
-    fun onClick(restaurantPhoto: String) = clickListener(restaurantPhoto)
+    fun onClick(storePhoto: String) = clickListener(storePhoto)
 }

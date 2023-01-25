@@ -8,7 +8,7 @@ import com.example.suitup.common.Event
 import com.example.suitup.common.SideEffect
 import com.example.suitup.common.UiState
 import com.example.suitup.common.UserIntent
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.repository.RoomRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,38 +26,38 @@ class FavoritesViewModel @Inject constructor(private val roomRepository: RoomRep
 
     fun action(favoritesIntent: FavoritesIntent) {
         when (favoritesIntent) {
-            is FavoritesIntent.GetData -> getDbRestaurantData()
-            is FavoritesIntent.AddToFavorites -> handleFavoritesRequest(favoritesIntent.restaurant)
+            is FavoritesIntent.GetData -> getDbStoreData()
+            is FavoritesIntent.AddToFavorites -> handleFavoritesRequest(favoritesIntent.store)
             is FavoritesIntent.OpenDetails -> {
-                pushSideEffect(FavoritesSideEffects.NavigateToDetails(favoritesIntent.restaurantId))
+                pushSideEffect(FavoritesSideEffects.NavigateToDetails(favoritesIntent.storeId))
             }
         }
     }
 
-    private fun getDbRestaurantData() {
+    private fun getDbStoreData() {
         _favoritesUiState.value = favoritesUiState.value?.copy(loading = true)
         viewModelScope.launch {
-            val result = roomRepository.loadRestaurantsFromDb()
+            val result = roomRepository.loadStoresFromDb()
             _favoritesUiState.value = favoritesUiState.value?.copy(
-                restaurantsAll = result.map { it.mapToModel() },
+                storesAll = result.map { it.mapToModel() },
                 loading = false
             )
         }
     }
 
-    private fun handleFavoritesRequest(restaurant: Restaurant) {
+    private fun handleFavoritesRequest(store: Store) {
         _favoritesUiState.value = favoritesUiState.value?.copy(loading = true)
         viewModelScope.launch {
-            if (restaurant.isFavorite != true) {
-                roomRepository.addRestaurantToDb(restaurant.mapToEntity())
-                _favoritesUiState.value?.restaurantsAll?.find { it.id == restaurant.id }?.isFavorite =
+            if (store.isFavorite != true) {
+                roomRepository.addStoreToDb(store.mapToEntity())
+                _favoritesUiState.value?.storesAll?.find { it.id == store.id }?.isFavorite =
                     true
             } else {
-                roomRepository.deleteRestaurantFromDb(restaurant.id)
-                val tempList = _favoritesUiState.value?.restaurantsAll?.toMutableList()
-                tempList?.remove(restaurant)
+                roomRepository.deleteStoreFromDb(store.id)
+                val tempList = _favoritesUiState.value?.storesAll?.toMutableList()
+                tempList?.remove(store)
                 _favoritesUiState.value =
-                    favoritesUiState.value?.copy(restaurantsAll = tempList?.toList())
+                    favoritesUiState.value?.copy(storesAll = tempList?.toList())
             }
             _favoritesUiState.value = favoritesUiState.value?.copy(loading = false)
         }
@@ -70,16 +70,16 @@ class FavoritesViewModel @Inject constructor(private val roomRepository: RoomRep
 
 data class FavoritesUiState(
     val loading: Boolean = false,
-    val restaurantsAll: List<Restaurant>? = null
+    val storesAll: List<Store>? = null
 ) : UiState
 
 sealed class FavoritesIntent : UserIntent {
     object GetData : FavoritesIntent()
-    class OpenDetails(val restaurantId: String) : FavoritesIntent()
-    class AddToFavorites(val restaurant: Restaurant) : FavoritesIntent()
+    class OpenDetails(val storeId: String) : FavoritesIntent()
+    class AddToFavorites(val store: Store) : FavoritesIntent()
 }
 
 sealed class FavoritesSideEffects : SideEffect {
     class Feedback(val msg: String) : FavoritesSideEffects()
-    class NavigateToDetails(val restaurantId: String) : FavoritesSideEffects()
+    class NavigateToDetails(val storeId: String) : FavoritesSideEffects()
 }

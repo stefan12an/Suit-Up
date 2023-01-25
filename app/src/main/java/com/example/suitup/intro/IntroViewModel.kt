@@ -8,17 +8,17 @@ class IntroViewModel: ViewModel() {
         SlideModel(
             R.drawable.tablet,
             "Quick search",
-            "Set your loctaion to start exploring restaurants around you"
+            "Set your loctaion to start exploring stores around you"
         ),
         SlideModel(
             R.drawable.shopping_bag,
             "Variety of food",
-            "Set your loctaion to start exploring restaurants around you"
+            "Set your loctaion to start exploring stores around you"
         ),
         SlideModel(
             R.drawable.map,
             "Search for a place",
-            "Set your loctaion to start exploring restaurants around you"
+            "Set your loctaion to start exploring stores around you"
         ),
     )
 

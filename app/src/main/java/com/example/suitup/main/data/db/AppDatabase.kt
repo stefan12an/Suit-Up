@@ -2,13 +2,13 @@ package com.example.suitup.main.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.suitup.main.data.model.RestaurantEntity
+import com.example.suitup.main.data.model.StoreEntity
 
 @Database(
-    entities = [RestaurantEntity::class],
-    version = 2,
+    entities = [StoreEntity::class],
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun restaurantDao(): RestaurantDao
+    abstract fun storeDao(): StoreDao
 }

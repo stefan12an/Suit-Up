@@ -13,7 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.suitup.common.EventObserver
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.ui.favourite.adapter.FavoritesAdapter
 import com.example.suitup.main.ui.favourite.adapter.FavoritesOnClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +38,7 @@ class FavoritesFragment : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.GONE
-                val newFavoritesCopy = it.restaurantsAll?.map { restaurant -> restaurant.copy() }
+                val newFavoritesCopy = it.storesAll?.map { store -> store.copy() }
                 updateFavoriteData(newFavoritesCopy ?: emptyList())
             }
         }
@@ -56,18 +56,18 @@ class FavoritesFragment : Fragment() {
     private fun handleSideEffect(sideEffect: FavoritesSideEffects) {
         when (sideEffect) {
             is FavoritesSideEffects.NavigateToDetails -> findNavController().navigate(
-                MainNavGraphDirections.moveToDetailsFragment(sideEffect.restaurantId)
+                MainNavGraphDirections.moveToDetailsFragment(sideEffect.storeId)
             )
             is FavoritesSideEffects.Feedback ->
                 Toast.makeText(requireContext(), sideEffect.msg, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun updateFavoriteData(restaurantList: List<Restaurant>) {
+    private fun updateFavoriteData(storeList: List<Store>) {
         bindRv()
         val adapter = binding.favoritesRv.adapter
         if (adapter is FavoritesAdapter) {
-            adapter.submitList(restaurantList)
+            adapter.submitList(storeList)
         } else {
             Toast.makeText(
                 context,

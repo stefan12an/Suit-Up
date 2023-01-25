@@ -3,7 +3,7 @@ package com.example.suitup.main.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.squareup.picasso.Picasso
 import suitup.databinding.DealsItemBinding
 import suitup.databinding.HomeSlideBinding
@@ -17,7 +17,7 @@ private const val ITEM_DEALS = 2
 open class ChildAdapter(private val clickListener: HomeChildOnClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var restaurantList: List<Restaurant> = ArrayList()
+    private var storeList: List<Store> = ArrayList()
     private var parentPosition by Delegates.notNull<Int>()
     override fun getItemViewType(position: Int): Int {
         return parentPosition
@@ -48,44 +48,44 @@ open class ChildAdapter(private val clickListener: HomeChildOnClickListener) :
         when (holder.itemViewType) {
             ITEM_PAGER -> {
                 val viewHolder = holder as ViewHolderOne
-                viewHolder.binding.root.setOnClickListener { clickListener.onClick(restaurantList[position].id) }
-                viewHolder.binding.pagerName.text = restaurantList[position].name
-                viewHolder.binding.pagerAddress.text = restaurantList[position].location?.address1
-                Picasso.get().load(restaurantList[position].image_url)
+                viewHolder.binding.root.setOnClickListener { clickListener.onClick(storeList[position].id) }
+                viewHolder.binding.pagerName.text = storeList[position].name
+                viewHolder.binding.pagerAddress.text = storeList[position].location?.address1
+                Picasso.get().load(storeList[position].image_url)
                     .into(viewHolder.binding.pagerImage)
             }
             ITEM_HOT_NEW -> {
                 val viewHolder = holder as ViewHolderTwo
-                viewHolder.binding.root.setOnClickListener { clickListener.onClick(restaurantList[position].id) }
-                viewHolder.binding.hotNewName.text = restaurantList[position].name
-                viewHolder.binding.hotNewAdress.text = restaurantList[position].location?.address1
+                viewHolder.binding.root.setOnClickListener { clickListener.onClick(storeList[position].id) }
+                viewHolder.binding.hotNewName.text = storeList[position].name
+                viewHolder.binding.hotNewAdress.text = storeList[position].location?.address1
                 var categories = ""
-                for (item in restaurantList[position].categories) {
+                for (item in storeList[position].categories) {
                     categories = "$categories$item, "
                 }
                 categories = categories.substring(0..categories.length - 3)
                 viewHolder.binding.hotNewCategories.text = categories
 
-                Picasso.get().load(restaurantList[position].image_url)
+                Picasso.get().load(storeList[position].image_url)
                     .into(viewHolder.binding.hotNewImage)
             }
             ITEM_DEALS -> {
                 val viewHolder = holder as ViewHolderThree
-                viewHolder.binding.root.setOnClickListener { clickListener.onClick(restaurantList[position].id) }
-                viewHolder.binding.dealsName.text = restaurantList[position].name
-                viewHolder.binding.dealsAdress.text = restaurantList[position].location?.address1
-                Picasso.get().load(restaurantList[position].image_url)
+                viewHolder.binding.root.setOnClickListener { clickListener.onClick(storeList[position].id) }
+                viewHolder.binding.dealsName.text = storeList[position].name
+                viewHolder.binding.dealsAdress.text = storeList[position].location?.address1
+                Picasso.get().load(storeList[position].image_url)
                     .into(viewHolder.binding.dealsImage)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return restaurantList.size
+        return storeList.size
     }
 
-    fun setItems(restaurantData: List<Restaurant>, position: Int) {
-        restaurantList = restaurantData
+    fun setItems(storeData: List<Store>, position: Int) {
+        storeList = storeData
         parentPosition = position
     }
 
@@ -100,5 +100,5 @@ open class ChildAdapter(private val clickListener: HomeChildOnClickListener) :
 }
 
 class HomeChildOnClickListener(val clickListener: (String) -> Unit) {
-    fun onClick(restaurantId: String) = clickListener(restaurantId)
+    fun onClick(storeId: String) = clickListener(storeId)
 }

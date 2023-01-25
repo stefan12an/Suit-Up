@@ -38,7 +38,7 @@ class ClusterManagerRenderer(
 
 
     override fun onClusterItemRendered(clusterItem: ClusterMarker, marker: Marker) {
-        Picasso.get().load(clusterItem.restaurant.image_url.toString())
+        Picasso.get().load(clusterItem.store.image_url.toString())
             .into(object : com.squareup.picasso.Target {
                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
                     markerImageView.setImageBitmap(bitmap)

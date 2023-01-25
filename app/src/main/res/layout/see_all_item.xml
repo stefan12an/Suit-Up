@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TextView.SeeAllItemTitle"
-            android:text="@string/restaurant_name"
+            android:text="@string/store_name"
             app:layout_constraintBottom_toTopOf="@+id/see_all_address"
             app:layout_constraintEnd_toStartOf="@+id/see_all_rating_card"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TextView.SeeAllItemDetails"
-            android:text="@string/restaurant_address"
+            android:text="@string/store_address"
             app:layout_constraintBottom_toTopOf="@+id/see_all_categories"
             app:layout_constraintEnd_toStartOf="@+id/see_all_rating_card"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             style="@style/TextView.SeeAllItemDetails"
             android:layout_marginBottom="@dimen/margin"
-            android:text="@string/restaurant_categories"
+            android:text="@string/store_categories"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/see_all_rating_card"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
                 android:paddingHorizontal="@dimen/padding"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_desc"
-                android:text="@string/restaurant_rating" />
+                android:text="@string/store_rating" />
         </androidx.cardview.widget.CardView>
 
         <ImageView

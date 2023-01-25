@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.suitup.common.*
 import com.example.suitup.main.data.model.CurrentLocation
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.model.yelp.YelpSearchResult
 import com.example.suitup.main.data.repository.LocationRepository
 import com.example.suitup.main.data.repository.RoomRepository
@@ -31,30 +31,30 @@ class SeeAllViewModel @Inject constructor(
 
     fun action(seeAllIntent: SeeAllIntent) {
         when (seeAllIntent) {
-            is SeeAllIntent.GetData -> loadAllFilteredRestaurants(
+            is SeeAllIntent.GetData -> loadAllFilteredStores(
                 seeAllIntent.attribute,
                 seeAllIntent.priceFilter,
                 seeAllIntent.orderFilter
             )
-            is SeeAllIntent.AddToFavorites -> handleFavoritesRequest(seeAllIntent.restaurant)
+            is SeeAllIntent.AddToFavorites -> handleFavoritesRequest(seeAllIntent.store)
             is SeeAllIntent.Filter -> pushSideEffect(SeeAllSideEffects.NavigateToFilter)
             is SeeAllIntent.OpenDetails -> pushSideEffect(
                 SeeAllSideEffects.NavigateToDetails(
-                    seeAllIntent.restaurantId
+                    seeAllIntent.storeId
                 )
             )
         }
     }
 
-    private fun loadAllFilteredRestaurants(
+    private fun loadAllFilteredStores(
         attributes: String?,
         priceFilter: String? = null,
         orderFilter: String? = null
     ) {
         _seeAllUiState.value = seeAllUiState.value?.copy(loading = true)
         viewModelScope.launch {
-            val restaurantDb = roomRepository.loadRestaurantIdsFromDb()
-            Log.e(TAG, "loadAllFilteredRestaurants: $restaurantDb")
+            val storesDb = roomRepository.loadStoreIdsFromDb()
+            Log.e(TAG, "loadAllFilteredStores: $storesDb")
             val currentLocation = getLocation()
             if (currentLocation == null) {
                 pushSideEffect(SeeAllSideEffects.NavigateToRequest)
@@ -63,28 +63,28 @@ class SeeAllViewModel @Inject constructor(
                 val searchResult: Resource<YelpSearchResult>
                 if (Constants.ATTRIBUTES.containsKey(attributes)) {
                     searchResult =
-                        yelpApiRepository.getAllFilteredRestaurants(
+                        yelpApiRepository.getAllFilteredStores(
                             currentLocation,
                             attribute = attributes,
                             orderFilter = orderFilter,
                             priceFilter = priceFilter
                         )
                 } else {
-                    searchResult = yelpApiRepository.getAllFilteredRestaurants(
+                    searchResult = yelpApiRepository.getAllFilteredStores(
                         currentLocation,
                         searchTerm = attributes,
                         orderFilter = orderFilter,
                         priceFilter = priceFilter
                     )
                 }
-                searchResult.data?.restaurants?.filter {
-                    restaurantDb.contains(it.id)
+                searchResult.data?.stores?.filter {
+                    storesDb.contains(it.id)
                 }?.forEach { it.isFavorite = true }
                 _seeAllUiState.value = seeAllUiState.value?.copy(
-                    restaurantsAll = (if (orderFilter != null) {
+                    storesAll = (if (orderFilter != null) {
                         orderResults(orderFilter, searchResult.data)
                     } else {
-                        searchResult.data?.restaurants
+                        searchResult.data?.stores
                     }),
                     loading = false
                 )
@@ -92,16 +92,16 @@ class SeeAllViewModel @Inject constructor(
         }
     }
 
-    private fun handleFavoritesRequest(restaurant: Restaurant) {
+    private fun handleFavoritesRequest(store: Store) {
         _seeAllUiState.value = seeAllUiState.value?.copy(loading = true)
         viewModelScope.launch {
-            if (restaurant.isFavorite != true) {
-                roomRepository.addRestaurantToDb(restaurant.mapToEntity())
-                _seeAllUiState.value?.restaurantsAll?.find { it.id == restaurant.id }?.isFavorite =
+            if (store.isFavorite != true) {
+                roomRepository.addStoreToDb(store.mapToEntity())
+                _seeAllUiState.value?.storesAll?.find { it.id == store.id }?.isFavorite =
                     true
             } else {
-                roomRepository.deleteRestaurantFromDb(restaurant.id)
-                _seeAllUiState.value?.restaurantsAll?.find { it.id == restaurant.id }?.isFavorite =
+                roomRepository.deleteStoreFromDb(store.id)
+                _seeAllUiState.value?.storesAll?.find { it.id == store.id }?.isFavorite =
                     false
             }
             _seeAllUiState.value = seeAllUiState.value?.copy(loading = false)
@@ -111,11 +111,11 @@ class SeeAllViewModel @Inject constructor(
     private fun orderResults(
         orderFilter: String,
         searchResult: YelpSearchResult?
-    ): List<Restaurant>? {
+    ): List<Store>? {
         return when (orderFilter) {
-            "close" -> searchResult?.restaurants
-            "asc" -> searchResult?.restaurants?.sortedBy { it.price }
-            "desc" -> searchResult?.restaurants?.sortedByDescending { it.price }
+            "close" -> searchResult?.stores
+            "asc" -> searchResult?.stores?.sortedBy { it.price }
+            "desc" -> searchResult?.stores?.sortedByDescending { it.price }
             else -> {
                 throw IllegalStateException()
             }
@@ -139,7 +139,7 @@ class SeeAllViewModel @Inject constructor(
 
 data class SeeAllUiState(
     val loading: Boolean = false,
-    val restaurantsAll: List<Restaurant>? = null,
+    val storesAll: List<Store>? = null,
     val priceFilter: String? = null,
     val orderFilter: String? = null
 ) : UiState
@@ -151,14 +151,14 @@ sealed class SeeAllIntent : UserIntent {
         val orderFilter: String? = null
     ) : SeeAllIntent()
 
-    class AddToFavorites(val restaurant: Restaurant) : SeeAllIntent()
+    class AddToFavorites(val store: Store) : SeeAllIntent()
     object Filter : SeeAllIntent()
-    class OpenDetails(val restaurantId: String) : SeeAllIntent()
+    class OpenDetails(val storeId: String) : SeeAllIntent()
 }
 
 sealed class SeeAllSideEffects : SideEffect {
     class Feedback(val msg: String) : SeeAllSideEffects()
-    class NavigateToDetails(val restaurantId: String) : SeeAllSideEffects()
+    class NavigateToDetails(val storeId: String) : SeeAllSideEffects()
     object NavigateToRequest : SeeAllSideEffects()
     object NavigateToFilter : SeeAllSideEffects()
 }

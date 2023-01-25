@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.suitup.common.*
 import com.example.suitup.main.data.model.CurrentLocation
-import com.example.suitup.main.data.model.Restaurant
+import com.example.suitup.main.data.model.Store
 import com.example.suitup.main.data.repository.LocationRepository
 import com.example.suitup.main.data.repository.YelpApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,12 +27,12 @@ class MapsViewModel @Inject constructor(
 
     fun action(mapsIntent: MapsIntent) {
         when (mapsIntent) {
-            is MapsIntent.GetData -> loadAllNearbyRestaurants()
-            is MapsIntent.OpenDetails -> pushSideEffect(MapsSideEffects.NavigateToDetails(mapsIntent.restaurantId))
+            is MapsIntent.GetData -> loadAllNearbyStores()
+            is MapsIntent.OpenDetails -> pushSideEffect(MapsSideEffects.NavigateToDetails(mapsIntent.storeId))
         }
     }
 
-    private fun loadAllNearbyRestaurants() {
+    private fun loadAllNearbyStores() {
         _mapsUiState.value = mapsUiState.value?.copy(loading = true)
         viewModelScope.launch {
             val currentLocation = getLocation()
@@ -40,9 +40,9 @@ class MapsViewModel @Inject constructor(
                 pushSideEffect(MapsSideEffects.NavigateToRequest)
                 return@launch
             } else {
-                val searchResult = yelpApiRepository.getAllFilteredRestaurants(currentLocation)
+                val searchResult = yelpApiRepository.getAllFilteredStores(currentLocation)
                 _mapsUiState.value = mapsUiState.value?.copy(
-                    restaurantsAll = searchResult.data?.restaurants,
+                    storesAll = searchResult.data?.stores,
                     location = currentLocation,
                     loading = false
                 )
@@ -68,16 +68,16 @@ class MapsViewModel @Inject constructor(
 data class MapsUiState(
     val loading: Boolean = false,
     val location: CurrentLocation? = null,
-    val restaurantsAll: List<Restaurant>? = null
+    val storesAll: List<Store>? = null
 ) : UiState
 
 sealed class MapsIntent : UserIntent {
     object GetData : MapsIntent()
-    class OpenDetails(val restaurantId: String) : MapsIntent()
+    class OpenDetails(val storeId: String) : MapsIntent()
 }
 
 sealed class MapsSideEffects : SideEffect {
     class Feedback(val msg: String) : MapsSideEffects()
     object NavigateToRequest : MapsSideEffects()
-    class NavigateToDetails(val restaurantId: String) : MapsSideEffects()
+    class NavigateToDetails(val storeId: String) : MapsSideEffects()
 }
