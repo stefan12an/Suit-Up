@@ -37,6 +37,7 @@ class DetailsViewModel @Inject constructor(
                 )
             )
             is DetailsIntent.AddToFavorites -> handleFavoritesRequest()
+            is DetailsIntent.GoToPhotoSearch -> pushSideEffect(DetailsSideEffects.GoToPhotoSearch)
         }
     }
 
@@ -89,9 +90,11 @@ sealed class DetailsIntent : UserIntent {
     class GetData(val restaurantId: String?) : DetailsIntent()
     class OpenPhoto(val photo: String?) : DetailsIntent()
     object AddToFavorites : DetailsIntent()
+    object GoToPhotoSearch : DetailsIntent()
 }
 
 sealed class DetailsSideEffects : SideEffect {
     class Feedback(val msg: String) : DetailsSideEffects()
     class NavigateToPhoto(val photo: String?) : DetailsSideEffects()
+    object GoToPhotoSearch : DetailsSideEffects()
 }

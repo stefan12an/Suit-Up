@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.suitup.common.EventObserver
+import com.example.suitup.main.ui.details.DetailsSideEffects
 import com.example.suitup.main.ui.home.adapter.HomeParentOnClickListener
 import com.example.suitup.main.ui.home.adapter.ParentAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,6 +58,7 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+        binding.takePhoto.setOnClickListener { viewModel.action(HomeIntent.GoToPhotoSearch) }
 
         return binding.root
     }
@@ -72,6 +74,8 @@ class HomeFragment : Fragment() {
             is HomeSideEffects.NavigateToDetails -> findNavController().navigate(
                 MainNavGraphDirections.moveToDetailsFragment(sideEffect.restaurantId)
             )
+            is HomeSideEffects.GoToPhotoSearch ->
+                findNavController().navigate(R.id.action_homeFragment_to_photoSearchFragment)
             is HomeSideEffects.NavigateToRequest -> findNavController().navigate(R.id.action_homeFragment_to_requestAccesFragment)
             is HomeSideEffects.Feedback ->
                 Toast.makeText(requireContext(), sideEffect.msg, Toast.LENGTH_SHORT).show()

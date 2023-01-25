@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_homeFragment_to_seeAllFragment"
             app:destination="@id/seeAllFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_photoSearchFragment"
+            app:destination="@id/photoSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/requestAccesFragment"
@@ -103,6 +106,9 @@
         <action
             android:id="@+id/action_detailsFragment_to_photoFragment"
             app:destination="@id/photoFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_photoSearchFragment"
+            app:destination="@id/photoSearchFragment" />
     </fragment>
     <dialog
         android:id="@+id/photoFragment"
@@ -118,4 +124,16 @@
         android:name="com.example.suitup.main.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/photoSearchFragment"
+        android:name="com.example.suitup.main.ui.photosearch.PhotoSearchFragment"
+        android:label="fragment_photo_search"
+        tools:layout="@layout/fragment_photo_search" >
+        <action
+            android:id="@+id/action_photoSearchFragment_to_seeAllFragment"
+            app:destination="@id/seeAllFragment" />
+        <action
+            android:id="@+id/action_photoSearchFragment_to_requestAccesFragment"
+            app:destination="@id/requestAccesFragment" />
+    </fragment>
 </navigation>

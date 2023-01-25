@@ -22,6 +22,7 @@ import suitup.MainNavGraphDirections
 import suitup.R
 import suitup.databinding.FragmentSeeAllBinding
 
+
 @AndroidEntryPoint
 class SeeAllFragment : Fragment() {
     private val viewModel: SeeAllViewModel by viewModels()
@@ -63,7 +64,17 @@ class SeeAllFragment : Fragment() {
                 val newCopy = it.restaurantsAll?.map { restaurant -> restaurant.copy() }
                 updateFavoriteData(newCopy ?: emptyList())
                 binding.myToolbar.title = getKey(ATTRIBUTES, attribute)
-                Picasso.get().load(it.restaurantsAll?.get(0)?.image_url).into(binding.toolbarIv)
+                try {
+                    Picasso.get()
+                        .load(it.restaurantsAll?.get(0)?.image_url)
+                        .placeholder(R.drawable.logo)
+                        .into(binding.toolbarIv)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Picasso.get()
+                        .load(R.drawable.image_unavailable)
+                        .into(binding.toolbarIv)
+                }
             }
         }
         viewModel.sideEffect.observe(viewLifecycleOwner, sideEffectsObserver)

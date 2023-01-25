@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.suitup.common.EventObserver
 import com.example.suitup.main.data.model.Restaurant
@@ -61,6 +62,8 @@ class DetailsFragment : Fragment() {
             )
             is DetailsSideEffects.Feedback ->
                 Toast.makeText(requireContext(), sideEffect.msg, Toast.LENGTH_SHORT).show()
+            is DetailsSideEffects.GoToPhotoSearch ->
+                findNavController().navigate(R.id.action_detailsFragment_to_photoSearchFragment)
         }
     }
 
@@ -73,6 +76,8 @@ class DetailsFragment : Fragment() {
     private fun bindRv(restaurant: Restaurant?, reviews: List<YelpReview>?) {
         val adapter = DetailsAdapter(restaurant, reviews, DetailsOnClickListener({
             viewModel.action(DetailsIntent.AddToFavorites)
+        },{
+          viewModel.action(DetailsIntent.GoToPhotoSearch)
         }, {
             viewModel.action(DetailsIntent.OpenPhoto(it))
         }))

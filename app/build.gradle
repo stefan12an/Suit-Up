@@ -37,11 +37,24 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        mlModelBinding true
         viewBinding true
+    }
+    androidResources {
+        noCompress 'tflite'
     }
 }
 
 dependencies {
+    // Tensorflow Lite dependencies
+//    implementation 'org.tensorflow:tensorflow-lite-task-vision-play-services:0.4.2'
+//    implementation 'com.google.android.gms:play-services-tflite-gpu:16.0.0'
+
+    // https://mvnrepository.com/artifact/org.tensorflow/tensorflow-android
+    implementation("org.tensorflow:tensorflow-android:1.4.0")
+    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.3.0'
     //Google Maps
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.maps.android:android-maps-utils:2.3.0'
@@ -59,7 +72,7 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.4.3'
 
     //Picasso
-    implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     
     //RxKotlin
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")

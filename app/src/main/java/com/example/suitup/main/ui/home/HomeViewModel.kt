@@ -13,6 +13,8 @@ import com.example.suitup.main.data.model.CurrentLocation
 import com.example.suitup.main.data.model.Restaurant
 import com.example.suitup.main.data.repository.LocationRepository
 import com.example.suitup.main.data.repository.YelpApiRepository
+import com.example.suitup.main.ui.details.DetailsIntent
+import com.example.suitup.main.ui.details.DetailsSideEffects
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,6 +38,7 @@ class HomeViewModel @Inject constructor(
             is HomeIntent.GetData -> getHomeNecessaryData()
             is HomeIntent.OpenDetails -> pushSideEffect(HomeSideEffects.NavigateToDetails(homeIntent.restaurantId))
             is HomeIntent.GetSearchResult -> getYelpApiSearchResponse(homeIntent.searchInput)
+            is HomeIntent.GoToPhotoSearch -> pushSideEffect(HomeSideEffects.GoToPhotoSearch)
         }
     }
 
@@ -52,13 +55,17 @@ class HomeViewModel @Inject constructor(
                     restaurantsSearch = searchResult.data?.restaurants,
                     loading = false
                 )
-                pushSideEffect(
-                    HomeSideEffects.NavigateToSeeAll(
-                        HomeFragmentDirections.actionHomeFragmentToSeeAllFragment(
-                            search.toString()
+                if(searchResult.data != null) {
+                    pushSideEffect(
+                        HomeSideEffects.NavigateToSeeAll(
+                            HomeFragmentDirections.actionHomeFragmentToSeeAllFragment(
+                                search.toString()
+                            )
                         )
                     )
-                )
+                }else{
+                    pushSideEffect(HomeSideEffects.Feedback(searchResult.message ?: "Didn't get a messageB"))
+                }
             }
         }
     }
@@ -120,12 +127,13 @@ sealed class HomeIntent : UserIntent {
     object GetData : HomeIntent()
     class GetSearchResult(val searchInput: CharSequence) : HomeIntent()
     class OpenDetails(val restaurantId: String) : HomeIntent()
-
+    object GoToPhotoSearch : HomeIntent()
 }
 
 sealed class HomeSideEffects : SideEffect {
     class Feedback(val msg: String) : HomeSideEffects()
     class NavigateToSeeAll(val directions: NavDirections) : HomeSideEffects()
     class NavigateToDetails(val restaurantId: String) : HomeSideEffects()
+    object GoToPhotoSearch : HomeSideEffects()
     object NavigateToRequest : HomeSideEffects()
 }

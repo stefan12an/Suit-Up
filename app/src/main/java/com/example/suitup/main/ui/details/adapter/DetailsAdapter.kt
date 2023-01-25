@@ -100,6 +100,9 @@ class DetailsAdapter(
                         i.putExtra(Intent.EXTRA_TEXT, restaurant?.url)
                         startActivity(root.context, Intent.createChooser(i, "Share via"), null)
                     }
+                    detailsPhoto.setOnClickListener {
+                        clickListener.onPhotoButtonClick()
+                    }
                 }
             }
             ITEM_PHOTOS_RV -> {
@@ -160,8 +163,10 @@ class DetailsAdapter(
 
 class DetailsOnClickListener(
     val favoritesClickListener: () -> Unit,
+    val photoButtonClickLIstener: () -> Unit,
     val clickListener: (String) -> Unit
 ) {
     fun onFavoritesClick() = favoritesClickListener()
+    fun onPhotoButtonClick() = photoButtonClickLIstener()
     fun onClick(restaurantPhoto: String) = clickListener(restaurantPhoto)
 }
