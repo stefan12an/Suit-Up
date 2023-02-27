@@ -12,14 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.suitup.auth.AuthActivity
 import com.example.suitup.common.EventObserver
-import com.facebook.AccessToken
-import com.facebook.AccessTokenTracker
-import com.facebook.FacebookSdk
-import com.facebook.GraphRequest
-import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import suitup.R
@@ -40,7 +36,6 @@ class ProfileFragment : Fragment() {
         val sideEffectsObserver = EventObserver<ProfileSideEffects> {
             handleSideEffect(it)
         }
-        FacebookSdk.fullyInitialize()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
@@ -62,10 +57,14 @@ class ProfileFragment : Fragment() {
                     "Google" -> {
                         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
                         binding.settingsEmail.text = account?.displayName
-                        Picasso.get().load(account?.photoUrl).placeholder(R.drawable.logo).into(binding.settingsImage)
+                        Picasso.get().load(account?.photoUrl).placeholder(R.drawable.logo)
+                            .into(binding.settingsImage)
                     }
-                    "Facebook" -> {
-                        tokenTracker.startTracking()
+                    "Normal" -> {
+                        val account = FirebaseAuth.getInstance().currentUser
+                        binding.settingsEmail.text = account?.email
+                        Picasso.get().load(account?.photoUrl).placeholder(R.drawable.logo)
+                            .into(binding.settingsImage)
                     }
                 }
             }
@@ -73,15 +72,26 @@ class ProfileFragment : Fragment() {
         viewModel.profileUiState.observe(viewLifecycleOwner, profileUiStateObserver)
         viewModel.sideEffect.observe(viewLifecycleOwner, sideEffectsObserver)
         binding.settingsList.setOnItemClickListener { _, _, i, _ ->
+            val firebaseAuth = FirebaseAuth.getInstance()
             when (settingsList[i]) {
-                "Edit credentials" -> {}
+                "Edit credentials" -> {
+                    when (origin) {
+                        "Google" -> Toast.makeText(
+                            requireContext(),
+                            "You are logged in with Google and can't change the credentials from the app!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        "Normal" -> EditCredentialsDialog(requireContext()).show()
+                    }
+                }
                 "Log out" -> {
                     when (origin) {
                         "Google" -> mGoogleSignInClient.signOut().addOnCompleteListener {
+                            firebaseAuth.signOut()
                             viewModel.action(ProfileIntent.LogOut)
                         }
-                        "Facebook" -> {
-                            LoginManager.getInstance().logOut()
+                        "Normal" -> {
+                            firebaseAuth.signOut()
                             viewModel.action(ProfileIntent.LogOut)
                         }
                     }
@@ -95,34 +105,6 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.action(ProfileIntent.GetOrigin)
-    }
-
-    private val tokenTracker = object : AccessTokenTracker() {
-        override fun onCurrentAccessTokenChanged(
-            oldAccessToken: AccessToken?,
-            currentAccessToken: AccessToken?
-        ) {
-            loadUserProfile(currentAccessToken)
-        }
-    }
-
-    private fun loadUserProfile(newAccessToken: AccessToken?) {
-        val request = GraphRequest.newMeRequest(
-            newAccessToken
-        ) { obj, _ ->
-            val firstName = obj?.getString("first_name")
-            val lastName = obj?.getString("last_name")
-            val email = obj?.getString("email")
-            val id = obj?.getString("id")
-            val imageUrl = "https://graph.facebook.com/$id/picture?type=normal"
-            binding.settingsEmail.text = "$firstName $lastName"
-            Picasso.get().load(imageUrl).placeholder(R.drawable.logo).into(binding.settingsImage)
-        }
-
-        val parameters = Bundle()
-        parameters.putString("fields", "first_name,last_name,email,id")
-        request.parameters = parameters
-        request.executeAsync()
     }
 
     private fun handleSideEffect(sideEffect: ProfileSideEffects) {

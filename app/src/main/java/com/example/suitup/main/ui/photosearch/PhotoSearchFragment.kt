@@ -19,8 +19,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.suitup.common.EventObserver
+import com.example.suitup.main.data.model.ml.Classifier
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -29,6 +32,7 @@ import suitup.databinding.FragmentPhotoSearchBinding
 import suitup.ml.ModelGpt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.util.*
 
 
 const val GALLERY_REQUEST_CODE = 1
@@ -36,12 +40,7 @@ const val GALLERY_REQUEST_CODE = 1
 @AndroidEntryPoint
 class PhotoSearchFragment : Fragment() {
     private lateinit var binding: FragmentPhotoSearchBinding
-    private val mInputSize = 128
-    private val mPixelSize = 3
-    private val mImageMean = 0
-    private val mImageStd = 255
-    private val mModelPath = "model_kaggle.tflite"
-    private val mLabelPath = "labels_gender.txt"
+    private val mInputSize = 224
     private val viewModel: PhotoSearchViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +50,16 @@ class PhotoSearchFragment : Fragment() {
         val sideEffectsObserver = EventObserver<PhotoSearchSideEffects> {
             handleSideEffect(it)
         }
+        val photoSearchUiStateObserver = Observer<PhotoSearchUiState> {
+            if (!it.loading) {
+                binding.prediction.text = it.prediction
+                binding.searchPredictionResult.visibility = View.VISIBLE
+            }
+        }
+
         viewModel.sideEffect.observe(viewLifecycleOwner, sideEffectsObserver)
+        viewModel.photoSearchUiState.observe(viewLifecycleOwner, photoSearchUiStateObserver)
+
         binding.takeImage.setOnClickListener { openCamera() }
         binding.loadImage.setOnClickListener { openGallery() }
         binding.searchPredictionResult.setOnClickListener {
@@ -128,8 +136,8 @@ class PhotoSearchFragment : Fragment() {
                         val bitmap =
                             BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(uri))
                         binding.desiredImage.setImageBitmap(bitmap)
-                        binding.prediction.text = predict(bitmap)
-                        binding.searchPredictionResult.visibility = View.VISIBLE
+                        val classifier = Classifier(requireContext(), mInputSize, false)
+                        viewModel.action(PhotoSearchIntent.Predict(bitmap, classifier))
                     }
                 }
             }
@@ -145,61 +153,5 @@ class PhotoSearchFragment : Fragment() {
         }
     }
 
-    private fun predict(bitmap: Bitmap): String{
-        val model = ModelGpt.newInstance(requireContext())
-        val byteBuffer = convertBitmapToByteBuffer(scaleImage(bitmap))
-        byteBuffer.rewind()
-        // Creates inputs for reference.
-        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 128, 128, 3), DataType.FLOAT32)
-        inputFeature0.loadBuffer(byteBuffer)
-
-        // Runs model inference and gets result.
-        val outputs = model.process(inputFeature0)
-        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
-        val str = requireContext().assets.open("labels_master.txt").bufferedReader().use { it.readText() }
-        val labels = str.split("\r\n")
-        // Releases model resources if no longer used.
-        model.close()
-
-        return labels[outputFeature0.floatArray.indices.maxBy { outputFeature0.floatArray[it] }]
-    }
-
-    private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
-
-        // Preallocate memory for bytebuffer
-        val byteBuffer = ByteBuffer.allocate(4 * mInputSize * mInputSize * mPixelSize)
-        byteBuffer.order(ByteOrder.nativeOrder())
-
-        // Initialize pixel data array and populate from bitmap
-        val intArray = IntArray(mInputSize * mInputSize)
-        bitmap.getPixels(
-            intArray, 0, bitmap.width, 0, 0,
-            bitmap.width, bitmap.height
-        )
-        var pixel = 0 // pixel indexer
-        for (i in 0 until mInputSize) {
-            for (j in 0 until mInputSize) {
-                val input = intArray[pixel++]
-                byteBuffer.putFloat((((input shr 16 and 0x000000FF) - mImageMean) / mImageStd).toFloat())
-                byteBuffer.putFloat((((input shr 8 and 0x000000FF) - mImageMean) / mImageStd).toFloat())
-                byteBuffer.putFloat((((input and 0x000000FF) - mImageMean) / mImageStd).toFloat())
-            }
-        }
-        return byteBuffer
-    }
-
-    private fun scaleImage(bitmap: Bitmap): Bitmap {
-        val originalWidth = bitmap.width
-        val originalHeight = bitmap.height
-
-        val scaleWidth = mInputSize.toFloat() / originalWidth
-        val scaleHeight = mInputSize.toFloat() / originalHeight
-
-        val matrix = Matrix()
-        matrix.postScale(scaleWidth, scaleHeight)
-
-        return Bitmap.createBitmap(bitmap, 0, 0, originalWidth, originalHeight, matrix, true)
-    }
 
 }

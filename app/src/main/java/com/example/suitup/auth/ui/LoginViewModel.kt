@@ -24,6 +24,7 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
     fun action(userIntent: LoginUserIntent) {
         when (userIntent) {
             is LoginUserIntent.Login -> saveOrigin(userIntent.origin)
+            is LoginUserIntent.GoToSignup -> pushSideEffect(LoginSideEffects.NavigateToSignUp)
         }
     }
 
@@ -48,10 +49,12 @@ data class LoginState(
 
 sealed class LoginUserIntent : UserIntent {
     class Login(val origin: String) : LoginUserIntent()
+    object GoToSignup : LoginUserIntent()
 }
 
 sealed class LoginSideEffects : SideEffect {
     class Feedback(val msg: String) : LoginSideEffects()
     object NavigateToMain : LoginSideEffects()
+    object NavigateToSignUp : LoginSideEffects()
 }
 

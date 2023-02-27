@@ -63,7 +63,7 @@ class SeeAllFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 val newCopy = it.storesAll?.map { store -> store.copy() }
                 updateFavoriteData(newCopy ?: emptyList())
-                binding.myToolbar.title = getKey(ATTRIBUTES, attribute)
+                binding.myToolbar.title = getKey(ATTRIBUTES, attribute) ?: attribute
                 try {
                     Picasso.get()
                         .load(it.storesAll?.get(0)?.image_url)

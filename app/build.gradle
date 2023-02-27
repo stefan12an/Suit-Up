@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
@@ -18,8 +19,6 @@ android {
         versionName "1.0"
         buildConfigField("String", "YELP_API_KEY", YELP_API_KEY)
         manifestPlaceholders += [MAPS_API_KEY: MAPS_API_KEY]
-        manifestPlaceholders += [FB_APP_ID: FB_APP_ID]
-        manifestPlaceholders += [FB_CLIENT_TOKEN: FB_CLIENT_TOKEN]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,6 +50,15 @@ dependencies {
 //    implementation 'com.google.android.gms:play-services-tflite-gpu:16.0.0'
 
     // https://mvnrepository.com/artifact/org.tensorflow/tensorflow-android
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+
+
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
     implementation("org.tensorflow:tensorflow-android:1.4.0")
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
@@ -62,7 +70,6 @@ dependencies {
     //Google Login SDK
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
 
-    implementation 'com.facebook.android:facebook-android-sdk:14.1.0'
 
     //Room
     implementation 'androidx.room:room-runtime:2.4.3'
@@ -70,6 +77,13 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
     kapt 'androidx.room:room-compiler:2.4.3'
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+
+    // Add the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'

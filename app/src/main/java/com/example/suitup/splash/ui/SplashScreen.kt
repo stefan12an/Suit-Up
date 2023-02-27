@@ -1,17 +1,15 @@
 package com.example.suitup.splash.ui
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.suitup.common.EventObserver
 import com.example.suitup.intro.IntroActivity
 import com.example.suitup.main.ui.main.MainActivity
-import com.facebook.AccessToken
-import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import suitup.R
 import java.util.*
@@ -53,11 +51,14 @@ class SplashScreen : AppCompatActivity() {
         }, 1000)
     }
 
-    private fun isLoggedIn(){
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        val accessToken = AccessToken.getCurrentAccessToken()
-        Log.e(TAG, "isLoggedIn: $accessToken", )
-        if((account != null && !account.isExpired) || (accessToken != null && !accessToken.isExpired)){
+    private fun isLoggedIn() {
+        // Initialize firebase auth
+        val firebaseAuth = FirebaseAuth.getInstance()
+        // Initialize firebase user
+        val firebaseUser = firebaseAuth.currentUser
+        // Check condition
+        if (firebaseUser != null) {
+            // When user already sign in redirect to profile activity
             viewModel.logInCheck(true)
         }else{
             viewModel.logInCheck(false)

@@ -50,10 +50,9 @@ class MainActivity : AppCompatActivity() {
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 navController.navigate(R.id.action_requestAccesFragment_to_homeFragment)
                 binding.chipNavigationBar.setItemSelected(R.id.home, true)
-                Toast.makeText(this, "E din fragment permis", Toast.LENGTH_SHORT).show()
             }
             else -> {
-                Toast.makeText(this, "NU E permis", Toast.LENGTH_SHORT).show()
+                //Do nothing for now
             }
         }
     }
@@ -66,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             }
             is PermissionSideEffects.NavigateToHome -> {
                 binding.chipNavigationBar.setItemSelected(R.id.home, true)
-                Toast.makeText(this, "E deja permis", Toast.LENGTH_SHORT).show()
             }
             is PermissionSideEffects.ActivateRequest -> {
                 locationPermissionRequest.launch(

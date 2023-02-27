@@ -1,4 +1,5 @@
 <resources>
+    <string name="google_login_token">1033932776549-fj945uuad44519uger6v37ddj1u1bos9.apps.googleusercontent.com</string>
     <string name="facebook_app_id">573156691110738</string>
     <string name="fb_login_protocol_scheme">fb573156691110738</string>
     <string name="facebook_client_token">59c046894456e9434979bd1afea21024</string>
@@ -47,4 +48,5 @@
     <string name="text">Text</string>
     <string name="reviews">Reviews</string>
     <string name="login">Login</string>
+    <string name="signup">Register</string>
 </resources>

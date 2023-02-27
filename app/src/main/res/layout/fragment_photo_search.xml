@@ -13,42 +13,55 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <ImageView
-        android:id="@+id/desired_image"
-        android:layout_width="350dp"
-        android:layout_height="400dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_m2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_m2">
+
+            <ImageView
+                android:id="@+id/desired_image"
+                android:layout_width="300dp"
+                android:layout_height="350dp" />
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
 
     <Button
         android:id="@+id/load_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_m4"
+        android:layout_marginTop="@dimen/margin_m2"
         android:text="Load Image"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desired_image" />
+        app:layout_constraintTop_toBottomOf="@+id/image_layout" />
 
     <Button
         android:id="@+id/take_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_m4"
+        android:layout_marginTop="@dimen/margin_m2"
         android:text="Take Photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/desired_image" />
+        app:layout_constraintTop_toBottomOf="@+id/image_layout" />
 
     <TextView
         android:id="@+id/prediction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_m4"
-        android:text="Output"
+        android:layout_marginTop="@dimen/margin_m2"
+        android:text="Output:"
         android:textSize="@dimen/text_size_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -59,9 +72,9 @@
         android:id="@+id/search_prediction_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/margin_m2"
         android:text="Search Result"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

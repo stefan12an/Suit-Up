@@ -1,5 +1,6 @@
 package com.example.suitup.main.ui.photosearch
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import androidx.navigation.NavDirections
 import com.example.suitup.common.*
 import com.example.suitup.main.data.model.CurrentLocation
 import com.example.suitup.main.data.model.Store
+import com.example.suitup.main.data.model.ml.Classifier
 import com.example.suitup.main.data.repository.LocationRepository
 import com.example.suitup.main.data.repository.YelpApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +35,22 @@ class PhotoSearchViewModel @Inject constructor(
                     photoSearchIntent.directions
                 )
             )
+            is PhotoSearchIntent.Predict -> getImageCombinedPrediction(
+                photoSearchIntent.bitmap,
+                photoSearchIntent.classifier
+            )
             is PhotoSearchIntent.GetSearchResult -> getYelpApiSearchResponse(photoSearchIntent.label)
+        }
+    }
+
+    private fun getImageCombinedPrediction(bitmap: Bitmap, classifier: Classifier) {
+        _photoSearchUiState.value = photoSearchUiState.value?.copy(loading = true)
+        viewModelScope.launch {
+            val prediction = classifier.predictCombine(bitmap)
+            _photoSearchUiState.value = photoSearchUiState.value?.copy(
+                prediction = prediction,
+                loading = false
+            )
         }
     }
 
@@ -86,11 +103,13 @@ class PhotoSearchViewModel @Inject constructor(
 
 data class PhotoSearchUiState(
     val loading: Boolean = false,
-    val storesSearches: List<Store>? = null
+    val storesSearches: List<Store>? = null,
+    val prediction: String? = null
 ) : UiState
 
 sealed class PhotoSearchIntent : UserIntent {
     class SeeAll(val directions: NavDirections) : PhotoSearchIntent()
+    class Predict(val bitmap: Bitmap, val classifier: Classifier) : PhotoSearchIntent()
     class GetSearchResult(val label: CharSequence) : PhotoSearchIntent()
 }
 
