@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -23,16 +21,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.suitup.common.EventObserver
 import com.example.suitup.main.data.model.ml.Classifier
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import suitup.R
 import suitup.databinding.FragmentPhotoSearchBinding
-import suitup.ml.ModelGpt
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.util.*
 
 
 const val GALLERY_REQUEST_CODE = 1

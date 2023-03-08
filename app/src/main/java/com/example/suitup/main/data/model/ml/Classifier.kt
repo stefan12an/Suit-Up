@@ -10,16 +10,16 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import suitup.ml.ModelGptColor
-import suitup.ml.ModelGptType
+import suitup.ml.ModelColor
+import suitup.ml.ModelType
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class Classifier(private val context: Context, private val inputSize: Int, isGray: Boolean) {
 
     private val pixelSize = if (isGray) 1 else 3
-    private val modelCategory = ModelGptType.newInstance(context)
-    private val modelColor = ModelGptColor.newInstance(context)
+    private val modelCategory = ModelType.newInstance(context)
+    private val modelColor = ModelColor.newInstance(context)
 
     fun predictCategory(bitmap: Bitmap): String {
         val byteBuffer = convertBitmapToByteBuffer(scaleImage(bitmap))
