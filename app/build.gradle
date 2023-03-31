@@ -50,7 +50,7 @@ dependencies {
 //    implementation 'com.google.android.gms:play-services-tflite-gpu:16.0.0'
 
     // https://mvnrepository.com/artifact/org.tensorflow/tensorflow-android
-
+    implementation project(':opencv')
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.2.2')
 

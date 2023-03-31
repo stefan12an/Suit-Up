@@ -62,7 +62,7 @@ class HomeViewModel @Inject constructor(
                         )
                     )
                 }else{
-                    pushSideEffect(HomeSideEffects.Feedback(searchResult.message ?: "Didn't get a messageB"))
+                    pushSideEffect(HomeSideEffects.Feedback(searchResult.message ?: "Didn't get a message"))
                 }
             }
         }

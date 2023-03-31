@@ -44,18 +44,22 @@ class PhotoSearchViewModel @Inject constructor(
     }
 
     private fun getImageCombinedPrediction(bitmap: Bitmap, classifier: Classifier) {
-        _photoSearchUiState.value = photoSearchUiState.value?.copy(loading = true)
+        _photoSearchUiState.value = photoSearchUiState.value?.copy(predictionsLoading = true)
         viewModelScope.launch {
-            val prediction = classifier.predictCombine(bitmap)
+            val response = classifier.predictCombine(bitmap)
+            val type = response.first as String
+            val colors = response.second as List<*>
+            val predictions = colors.map { "$it $type" }.toList()
             _photoSearchUiState.value = photoSearchUiState.value?.copy(
-                prediction = prediction,
-                loading = false
+                predictions = predictions,
+                predictionsLoading = false
             )
         }
     }
 
     private fun getYelpApiSearchResponse(label: CharSequence) {
-        _photoSearchUiState.value = photoSearchUiState.value?.copy(loading = true)
+        _photoSearchUiState.value =
+            photoSearchUiState.value?.copy(loading = true, predictionsLoading = null)
         viewModelScope.launch {
             val currentLocation = getLocation()
             if (currentLocation == null) {
@@ -65,7 +69,8 @@ class PhotoSearchViewModel @Inject constructor(
                 val searchResult = yelpApiRepository.getStoreSearch(currentLocation, label)
                 _photoSearchUiState.value = photoSearchUiState.value?.copy(
                     storesSearches = searchResult.data?.stores,
-                    loading = false
+                    loading = false,
+                    predictionsLoading = null
                 )
                 if (searchResult.data != null) {
                     pushSideEffect(
@@ -78,7 +83,7 @@ class PhotoSearchViewModel @Inject constructor(
                 } else {
                     pushSideEffect(
                         PhotoSearchSideEffects.Feedback(
-                            searchResult.message ?: "Didn't get a messageB"
+                            searchResult.message ?: "Didn't get a message"
                         )
                     )
                 }
@@ -103,8 +108,9 @@ class PhotoSearchViewModel @Inject constructor(
 
 data class PhotoSearchUiState(
     val loading: Boolean = false,
+    val predictionsLoading: Boolean? = null,
     val storesSearches: List<Store>? = null,
-    val prediction: String? = null
+    val predictions: List<String>? = null
 ) : UiState
 
 sealed class PhotoSearchIntent : UserIntent {

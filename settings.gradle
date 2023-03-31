@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Suit Up"
 include ':app'
+include ':opencv'

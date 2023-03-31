@@ -14,11 +14,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.example.suitup.common.EventObserver
 import com.example.suitup.main.data.model.ml.Classifier
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,9 +46,15 @@ class PhotoSearchFragment : Fragment() {
             handleSideEffect(it)
         }
         val photoSearchUiStateObserver = Observer<PhotoSearchUiState> {
-            if (!it.loading) {
-                binding.prediction.text = it.prediction
-                binding.searchPredictionResult.visibility = View.VISIBLE
+            if (it.predictionsLoading == false) {
+                val dialog = PhotoSearchDialog({ result ->
+                    binding.prediction.text = result
+                    binding.searchPredictionResult.visibility = View.VISIBLE
+                }, it.predictions)
+                dialog.show(requireActivity().supportFragmentManager, PhotoSearchDialog.TAG)
+            }else{
+                binding.prediction.text = ""
+                binding.searchPredictionResult.visibility = View.GONE
             }
         }
 
@@ -63,6 +73,10 @@ class PhotoSearchFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        bindToolbar()
+    }
     private fun openCamera() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -91,7 +105,8 @@ class PhotoSearchFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             if (bitmap != null) {
                 binding.desiredImage.setImageBitmap(bitmap)
-
+                val classifier = Classifier(requireContext(), mInputSize, false)
+                viewModel.action(PhotoSearchIntent.Predict(bitmap, classifier))
             }
         }
 
@@ -115,10 +130,10 @@ class PhotoSearchFragment : Fragment() {
     private val onResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             Log.e(TAG, "This is the result: ${result.data}, ${result.resultCode}")
-            onResultRecieved(GALLERY_REQUEST_CODE, result)
+            onResultReceived(GALLERY_REQUEST_CODE, result)
         }
 
-    private fun onResultRecieved(requestCode: Int, result: ActivityResult?) {
+    private fun onResultReceived(requestCode: Int, result: ActivityResult?) {
         when (requestCode) {
             GALLERY_REQUEST_CODE -> {
                 if (result?.resultCode == Activity.RESULT_OK) {
@@ -144,5 +159,15 @@ class PhotoSearchFragment : Fragment() {
         }
     }
 
+    private fun bindToolbar() {
+        binding.myToolbar.setupWithNavController(
+            findNavController(),
+            AppBarConfiguration(findNavController().graph)
+        )
+        binding.myToolbar.navigationIcon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_arrow_back)
+        binding.myToolbar.title = "Search by photo"
+        binding.myToolbar.setTitleTextColor(requireContext().getColor(R.color.white))
+        binding.myToolbar.isTitleCentered = true
+    }
 
 }
