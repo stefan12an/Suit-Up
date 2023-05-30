@@ -20,6 +20,7 @@ class IntroActivity : AppCompatActivity() {
 
         val adapter = SlideAdapter(introViewModel.getList(), this)
         binding.viewPager2.adapter = adapter
+        binding.viewPager2.isUserInputEnabled = false
         binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 if (position == introViewModel.getList().size - 1) {
