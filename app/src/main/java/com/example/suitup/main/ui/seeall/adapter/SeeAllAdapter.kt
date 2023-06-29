@@ -1,5 +1,7 @@
 package com.example.suitup.main.ui.seeall.adapter
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -72,9 +74,9 @@ class SeeAllAdapter(
                 val viewHolder = holder as RvViewHolder
                 viewHolder.binding.seeAllName.text = getItem(position).name
                 viewHolder.binding.seeAllAddress.text = getItem(position).location?.address1
+                Log.e(TAG, "onBindViewHolder: ${getItem(position).is_closed}", )
                 viewHolder.binding.seeAllClosed.text =
-                    "Closed: " + getItem(position).is_closed.toString()
-                        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                    if (getItem(position).is_closed == true) "Closed" else "Open" + " today"
 
                 var categories = ""
                 for (item in getItem(position).categories) {

@@ -1,7 +1,9 @@
 package com.example.suitup.main.ui.details.adapter
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
@@ -74,9 +76,10 @@ class DetailsAdapter(
                     detailsAddress.text = store?.location?.address1
                     detailsCategories.text =
                         store?.categories?.take(CATEGORIES_LIMIT).toString()
-                    detailsHours.text =
+                    Log.e(TAG, "onBindViewHolder: ${store?.hours?.get(0)?.getCorrectSchedule()?.toSchedule()}", )
+                    detailsHours.text = if(store?.is_closed == true) "Closed today" else
                         store?.hours?.get(0)?.getCorrectSchedule()?.toSchedule()
-                            ?: "Closed today"
+                            ?: "Open today"
                     detailsPhone.text = store?.phone ?: "Not available"
                     detailsCuisines.text = store?.categories?.take(CATEGORIES_LIMIT).toString()
                     detailsPrice.text = store?.price ?: "Not available"

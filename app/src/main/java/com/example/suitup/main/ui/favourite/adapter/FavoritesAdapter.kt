@@ -40,8 +40,7 @@ class FavoritesAdapter(
         holder.binding.favoritesName.text = getItem(position).name
         holder.binding.favoritesAddress.text = getItem(position).location?.address1
         holder.binding.favoritesClosed.text =
-            "Closed: " + getItem(position).is_closed.toString()
-                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            if (getItem(position).is_closed == true) "Closed" else "Open" + " today"
 
         var categories = ""
         for (item in getItem(position).categories) {

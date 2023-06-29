@@ -87,7 +87,7 @@ class MapsFragment : Fragment() {
                 mapName.text = marker.store.name
                 mapAddress.text = marker.store.location?.address1
                 mapCategories.text = marker.store.categories.toString()
-                mapClosed.text = "Closed: ${marker.store.is_closed.toString()}"
+                mapClosed.text = if (marker.store.is_closed == true) "Closed" else "Open" + " today"
                 mapRating.text = marker.store.rating.toString()
                 setRatingColor(marker.store.rating)
                 Picasso.get().load(marker.store.image_url).into(mapIcon)
